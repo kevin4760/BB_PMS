@@ -153,6 +153,12 @@ public class EmployeeDAO {
             stmt = gc.getConn().createStatement();
             rs = stmt.executeQuery(sql);
             if(rs.next()){
+                emp.setEmployeeID(rs.getString(1));
+                emp.setHotelID(rs.getString(2));
+                emp.setLastName(rs.getString(3));
+                emp.setFirstName(rs.getString(4));
+                emp.setUserName(rs.getString(5));
+                emp.setPassword(rs.getString(6));
                 access = true;
                 rs.close();
             } else 
