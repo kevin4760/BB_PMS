@@ -102,8 +102,8 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
     checkedin reservations%ROWTYPE;
     --find the reservations that are due in but have not been checked in
     CURSOR res_cursor IS SELECT a.res_no, b.use_count,b.rm_no FROM reservations a, rooms b
-      WHERE a.rm_no = b.rm_no AND a.in_date <= business_date_today 
-        AND a.in_date >= business_date AND a.status=0;
+      WHERE a.rm_no = b.rm_no AND a.in_date >= business_date
+        AND a.in_date <= business_date_today AND a.status=0;
     --find the reservations that are checked in for the room use count incrememnt
     CURSOR checkedin_cursor IS SELECT * FROM reservations 
       WHERE status=1 AND in_date<=business_date_today AND out_date>=business_date_today;
