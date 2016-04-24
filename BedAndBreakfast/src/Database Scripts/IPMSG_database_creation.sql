@@ -94,7 +94,7 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
       use_count rooms.use_count%TYPE,
       rm_no rooms.rm_no%TYPE
     );
-    new_business_date business_dates.business_date%TYPE;
+    business_date_today business_dates.business_date%TYPE;
     business_date business_dates.business_date%TYPE;
     occupied NUMBER;
     total NUMBER;
@@ -102,15 +102,17 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
     checkedin reservations%ROWTYPE;
     --find the reservations that are due in but have not been checked in
     CURSOR res_cursor IS SELECT a.res_no, b.use_count,b.rm_no FROM reservations a, rooms b
-      WHERE a.rm_no = b.rm_no AND a.in_date <= business_date AND a.status=0;
+      WHERE a.rm_no = b.rm_no AND a.in_date <= business_date_today 
+        AND a.in_date >= business_date AND a.status=0;
     --find the reservations that are checked in for the room use count incrememnt
-    CURSOR checkedin_cursor IS SELECT * FROM reservations WHERE status=1;
+    CURSOR checkedin_cursor IS SELECT * FROM reservations 
+      WHERE status=1 AND in_date<=business_date_today AND out_date>=business_date_today;
 
     BEGIN
       --find the current business date
       SELECT MAX(business_date) INTO business_date FROM business_dates;
       --find the new business date
-      SELECT MAX(business_date) + 1 INTO new_business_date FROM business_dates;
+      SELECT MAX(business_date) + 1 INTO business_date_today FROM business_dates;
       --find the number of reservations that are checked in
       SELECT COUNT(*) INTO occupied FROM reservations WHERE status = 1;
       --find the total number of rooms in the hotel
@@ -122,7 +124,7 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
       --create a new business date record
       INSERT 
           INTO business_dates(emp_id, hotel_id, business_date, run_date, occupied_rooms, total_rooms)
-          VALUES (employee, hotel, new_business_date, SYSDATE, occupied, total);
+          VALUES (employee, hotel, business_date_today, SYSDATE, occupied, total);
 
       LOOP
           FETCH res_cursor INTO no_show_res;
