@@ -109,7 +109,7 @@ public class ReservationDAO {
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
-            showMessageDialog(null, "Reservation Checked In", "Checked In", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Checked Out", "Checked Out", JOptionPane.INFORMATION_MESSAGE);
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
@@ -128,7 +128,7 @@ public class ReservationDAO {
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
-            showMessageDialog(null, "Reservation Checked In", "Checked In", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Cancelled", "Cancel Reservation", JOptionPane.INFORMATION_MESSAGE);
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
@@ -146,7 +146,7 @@ public class ReservationDAO {
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
-            showMessageDialog(null, "Reservation Checked In", "Checked In", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation No Show", "No Show", JOptionPane.INFORMATION_MESSAGE);
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
@@ -154,20 +154,31 @@ public class ReservationDAO {
         }
     }//end noShowReservation()
     //Search reservaton
-    public ArrayList<Reservation> searchReservationByResNo(int res_no) {
+    public ArrayList<ArrayList<String>> searchReservationByResNo(ArrayList<String> searchCriteria) {
         //connects to database
         gc.getDBConnection();
-        ArrayList <Reservation>records = new ArrayList<>();
+        ArrayList <ArrayList<String>> records = new ArrayList<>();
+        ArrayList <String> record = new ArrayList();
         //need method to get guest and room number
         try{
             ps=gc.getConn().prepareStatement
-                ("select res_no, rm_no, guest_no, in_date, out_date, price"
-                        + ",status from reservations where res_no=?");
-            ps.setInt(1, res_no);
+                ("SELECT last_name, first_name, in_date, out_date, status, rm_no " +
+                    " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+                    " AND (r.res_no = ?)" +
+                    " OR (r.rm_no = ?)" +
+                    " OR (in_date >= ? AND out_date <=?)" +
+                    " OR (g.guest_no = ?)" +
+                    " OR (r.status = ?)" +
+                    " OR (g.first_name=?)" +
+                    " OR (g.last_name=?)");
+            ps.setString(1, searchCriteria.get(0));
             rs = ps.executeQuery();
             while (rs.next()){
-                records.add(new Reservation(rs.getString(1), rs.getString(2),
-                rs.getString(3),rs.getString(4),rs.getDouble(5),rs.getInt(6)));
+                for (int i = 1; i <= 6; i++ ){
+                record.add(rs.getString(i));
+                }
+                records.add(record);
+                record = new ArrayList();
             }
             rs.close();
             //close connection
