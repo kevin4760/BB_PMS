@@ -132,6 +132,7 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
           --change arrival reservations to no show
           UPDATE reservations res SET status = 4 WHERE res.res_no = no_show_res.res_no;
       END LOOP;
+
       LOOP
         FETCH checkedin_cursor INTO checkedin;
         EXIT WHEN checkedin_cursor%NOTFOUND;

@@ -166,7 +166,7 @@ public class ReservationDAO {
                     " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
                     " AND (r.res_no = ?)" +
                     " OR (r.rm_no = ?)" +
-                    " OR (in_date >= ? AND out_date <=?)" +
+                    " OR (r.in_date >= ? AND r.out_date <=?)" +
                     " OR (g.guest_no = ?)" +
                     " OR (r.status = ?)" +
                     " OR (g.first_name=?)" +

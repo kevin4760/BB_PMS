@@ -142,9 +142,10 @@ public class EmployeeDAO {
     
     //vaidate user for login   
     //method validateUser()
-    public Boolean validateUser(String user, char[] input) {
+    public Boolean validateUser(Employee emp) {
         gc.getDBConnection();
-        String pass = new String(input);
+        String user = emp.getUserName();
+        String pass = emp.getPassword();
         Boolean access = false;
         try {
             String sql = "SELECT * FROM employees WHERE user_name='" + user + 

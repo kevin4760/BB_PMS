@@ -15,7 +15,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * class that SQL exceptions, other exceptions, and other errors
  * and handles it gracefully spitting out an appropriate error message
  */
-public class ErrorHandling {
+public class ErrorHandling extends Exception{
     
     //constructor
     public ErrorHandling(){

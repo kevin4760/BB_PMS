@@ -6,7 +6,12 @@
 package views;
 
 import DBCommands.DBConnection;
+import classes.Employee;
+import classes.Hotel;
+import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +24,8 @@ public class Dashboard extends javax.swing.JFrame {
     private DBConnection conn;
     private ArrayList<String> results;
     private int roomStatus;
-    
+    private Employee emp;
+    private Hotel hotel;
     /**
      * Creates new form Dashboard
      */
@@ -47,7 +53,32 @@ public class Dashboard extends javax.swing.JFrame {
         
         //edits jButtons
     }
-
+    public Dashboard(Employee emp, Hotel hotel) {
+        initComponents();  //
+        //
+        conn = new DBConnection();
+        conn.getDBConnection();
+        
+        //populate roomList
+        results = conn.getresults("SELECT rm_no from rooms", 1);
+        rooms = new String[results.size()];
+        for (int i = 0; i < results.size(); i++ ) {
+            rooms[i] = results.get(i);
+        }
+        roomList.setListData(rooms);
+        
+        this.emp = emp;
+        this.hotel = hotel;
+        //end roomList
+        
+        //checks the number of guest checked in
+        
+        //checks occupied and unoccupied rooms
+        
+        //percent used
+        
+        //edits jButtons
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,6 +98,7 @@ public class Dashboard extends javax.swing.JFrame {
         roomSearch = new javax.swing.JButton();
         employee = new javax.swing.JButton();
         exitProgram = new javax.swing.JButton();
+        nightAudit = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -148,6 +180,13 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        nightAudit.setText("Night Audit");
+        nightAudit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nightAuditActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -161,7 +200,8 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(guestSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roomSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(reservationSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(employee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(employee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nightAudit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -179,6 +219,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(employee)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nightAudit)
+                .addGap(18, 18, 18)
                 .addComponent(exitProgram)
                 .addContainerGap())
         );
@@ -476,6 +518,29 @@ public class Dashboard extends javax.swing.JFrame {
         new EmployeeModule().setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_employeeActionPerformed
 
+    private void nightAuditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nightAuditActionPerformed
+        // TODO add your handling code here:
+        CallableStatement stmt;
+        int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
+        if (n == JOptionPane.YES_OPTION){
+            //Run Night Audit Statement
+            String sql="? = call roll_date(?,?)";
+            //Adds the Information to the Search ComboBox
+            try{
+                stmt = conn.getConn().prepareCall(sql);
+                stmt.registerOutParameter(1, Types.BOOLEAN);                
+                stmt.setString(1, emp.getEmployeeID());
+                stmt.setString(2, hotel.getHotelID());
+                stmt.executeQuery();
+                if (stmt.getBoolean(1)){
+                    JOptionPane.showMessageDialog(null, "Night Audit ran successfully","Night Audit", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (SQLException ex){
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_nightAuditActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -544,6 +609,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonOccupied;
     private javax.swing.JRadioButton jRadioButtonUnoccupied;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JButton nightAudit;
     private javax.swing.JTextField numberGuest;
     private javax.swing.JTextField occupiedRooms;
     private javax.swing.JTextField percentUsed;

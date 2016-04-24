@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 import DBCommands.EmployeeDAO;
+import classes.Employee;
+import classes.Hotel;
 
 /**
  *
@@ -19,7 +21,9 @@ import DBCommands.EmployeeDAO;
  */
 public class LoginPage extends javax.swing.JFrame {
     
-    EmployeeDAO emp = new EmployeeDAO();
+    EmployeeDAO empDAO = new EmployeeDAO();
+    Employee emp = new Employee();
+    Hotel hotel = new Hotel("001", "Mancavia");
     /**
      * Creates new form Login
      */
@@ -142,8 +146,10 @@ public class LoginPage extends javax.swing.JFrame {
         // validates username and password moves to reservation screen
         DBConnection gc = new DBConnection();
         gc.getDBConnection();
-        if(emp.validateUser(username.getText(), password.getPassword())){
-            new Dashboard().setVisible(rootPaneCheckingEnabled);
+        emp.setUserName(username.getText().toUpperCase());
+        emp.setPassword(new String(password.getPassword()));
+        if(empDAO.validateUser(emp)){
+            new Dashboard(emp, hotel).setVisible(rootPaneCheckingEnabled);
             this.dispose();
         } else{
             showMessageDialog(null, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
