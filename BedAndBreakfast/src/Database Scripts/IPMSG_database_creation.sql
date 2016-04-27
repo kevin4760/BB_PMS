@@ -84,11 +84,11 @@ CREATE TABLE business_dates(
 --begin night audit code written by Prasanna
 CREATE OR REPLACE PACKAGE night_audit AS
     FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN hotels.hotel_id%TYPE) 
-      RETURN BOOLEAN;
+      RETURN NUMBER;
 END night_audit;
 
 CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN hotels.hotel_id%TYPE) 
-  RETURN BOOLEAN AS
+  RETURN NUMBER AS
     TYPE no_show_res_type IS RECORD(
       res_no reservations.res_no%TYPE,
       use_count rooms.use_count%TYPE,
@@ -142,9 +142,9 @@ CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN
         --change all checked in rooms to dirty
         UPDATE rooms r SET clean = 1 WHERE r.rm_no = checkedin.rm_no;
       END LOOP;
-    RETURN TRUE;
+    RETURN 0;
     EXCEPTION
       WHEN DUP_VAL_ON_INDEX THEN
-      RETURN FALSE;
+      RETURN 1;
 END roll_date;
 --end night audit code
