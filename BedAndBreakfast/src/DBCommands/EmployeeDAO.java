@@ -160,10 +160,8 @@ public class EmployeeDAO {
                 emp.setUserName(rs.getString(5));
                 emp.setPassword(rs.getString(6));
                 access = true;
-                rs.close();
             } else 
                 access = false;
-            rs.close();
             gc.getConn().close();
         } catch(SQLException ex) {
             System.out.println(ex);
