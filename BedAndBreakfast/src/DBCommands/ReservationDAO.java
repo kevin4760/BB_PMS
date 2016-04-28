@@ -5,6 +5,7 @@
  */
 package DBCommands;
 
+import classes.Guest;
 import classes.Reservation;
 
 import java.sql.PreparedStatement;
@@ -186,6 +187,112 @@ public class ReservationDAO {
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
         return records;
     }//end searchReservation()
+    
+    
+    /**
+     * Author Kevin, searches reservation from database
+     * @param r Reservation
+     * @param g Guest
+     * @return 2D String Array
+     */
+    public String[][] searchReservation(Reservation r, Guest g) {
+        //open db connection
+        gc.getDBConnection();
+        int totalRows = 0;
+        try{
+            //create search statement used in oracle
+            ps = gc.getConn().prepareStatement(
+                "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
+                " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+                " AND (r.status = ?) "+ //reservation status must be set
+                " AND (r.res_no = ?)" +
+                " OR (r.rm_no = ?)" +
+                " OR (r.in_date >= ? AND r.out_date <=?)" +
+                " OR (g.guest_no = ?)" +
+                " OR (g.first_name=?)" +
+                " OR (g.last_name=?)"
+            );//end ps
+            //set values (8-?)
+            ps.setInt(1, r.getStatus());
+//            ps.setInt(1, 4);//test value
+            ps.setString(2, r.getResNo());
+            ps.setString(3, r.getRoomNumber());
+            ps.setString(4, r.getCheckIn());
+            ps.setString(5, r.getCheckOut());
+            ps.setString(6, r.getGuestNumber());
+//            ps.setString(6, "1001");//test item
+            ps.setString(7, g.getFirstName());
+            ps.setString(8, g.getLastName());
+            //execute command to the database
+            rs = ps.executeQuery();
+            //use while to get to the last row, do this way to avoid errors
+            while(rs.next()){
+                totalRows = rs.getRow();
+            }//end while
+        } catch(SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //create array
+        String[][] rowInfo = new String[totalRows][7];//rows must be calulated first
+        
+        //add info to array by running query again
+        try{
+            //create search statement used in oracle
+            ps = gc.getConn().prepareStatement(
+                "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
+                " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+                " AND (r.status = ?) "+ //reservation status must be set
+                " AND (r.res_no = ?)" +
+                " OR (r.rm_no = ?)" +
+                " OR (r.in_date >= ? AND r.out_date <=?)" +
+                " OR (g.guest_no = ?)" +
+                " OR (g.first_name=?)" +
+                " OR (g.last_name=?)"
+            );//end ps
+            //set values (8-?)
+            ps.setInt(1, r.getStatus());
+//            ps.setInt(1, 4);//test value
+            ps.setString(2, r.getResNo());
+            ps.setString(3, r.getRoomNumber());
+            ps.setString(4, r.getCheckIn());
+            ps.setString(5, r.getCheckOut());
+            ps.setString(6, r.getGuestNumber());
+//            ps.setString(6, "1001");//test value
+            ps.setString(7, g.getFirstName());
+            ps.setString(8, g.getLastName());
+            //execute command to the database
+            rs = ps.executeQuery(); 
+            //add to array
+            int i = 0; //count for rows
+            while(rs.next()){
+                rowInfo[i][0] = rs.getString(1);
+                rowInfo[i][1] = rs.getString(2);
+                rowInfo[i][2] = rs.getString(3);
+                rowInfo[i][3] = rs.getString(4).split(" ")[0];
+                rowInfo[i][4] = rs.getString(5).split(" ")[0];
+                rowInfo[i][5] = rs.getString(6);
+                rowInfo[i][6] = rs.getString(7);
+                i++;
+            }//end while
+            //close DB connection
+            gc.getConn().close();
+        } catch(Exception ex) {
+            System.out.println(ex);
+            Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }//end try
+        //BEGIN TEST ITEM
+//        for(int i=0; i < totalRows; i++){
+//            for(int column=0; column < 7; column++){
+//                System.out.print(rowInfo[i][column]+" ");
+//            }
+//            System.out.println();
+//        }
+        //END TEST ITEM
+        return rowInfo;
+    }
 }

@@ -7,6 +7,7 @@ package views;
 
 import DBCommands.ReservationDAO;
 import classes.ErrorHandling;
+import classes.Guest;
 import classes.Reservation;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,13 +51,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabeLCheckOutDate = new javax.swing.JLabel();
         jLabelRmNo = new javax.swing.JLabel();
         jLabelResvNo = new javax.swing.JLabel();
-        jComboBoxRoomNumber = new javax.swing.JComboBox<>();
+        jComboBoxRoomNumber = new javax.swing.JComboBox<String>();
         jCalendarComboBoxCheckInDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jCalendarComboBoxCheckOutDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jLabelReservationNumber = new javax.swing.JLabel();
         jTextFieldReservationNumber = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
-        jComboBoxReservationStatus = new javax.swing.JComboBox<>();
+        jComboBoxReservationStatus = new javax.swing.JComboBox<String>();
         jTextFieldGuestNumber = new javax.swing.JTextField();
         jLabelGuestNumber = new javax.swing.JLabel();
         jTextFieldFirstName = new javax.swing.JTextField();
@@ -71,6 +72,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         jTableReservationList = new javax.swing.JTable();
         jButtonSearch = new javax.swing.JButton();
         jButtonClear = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,7 +104,7 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         jLabelStatus.setText("Status");
 
-        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
+        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
 
         jTextFieldGuestNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,6 +236,7 @@ public class ReservationManagement extends javax.swing.JFrame {
                 "Last Name", "First Name", "Check In Date", "Check Out Date", "Status", "Room"
             }
         ));
+        jTableReservationList.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTableReservationList);
         jTableReservationList.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -245,6 +248,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         });
 
         jButtonClear.setText("Clear");
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelReservationManagementLayout = new javax.swing.GroupLayout(jPanelReservationManagement);
         jPanelReservationManagement.setLayout(jPanelReservationManagementLayout);
@@ -264,7 +274,8 @@ public class ReservationManagement extends javax.swing.JFrame {
                         .addComponent(jButtonExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButtonSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
         jPanelReservationManagementLayout.setVerticalGroup(
@@ -289,7 +300,9 @@ public class ReservationManagement extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExit))
+                        .addComponent(jButtonExit)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -359,6 +372,13 @@ public class ReservationManagement extends javax.swing.JFrame {
 //        = new JTable(reservations.toArray(),columnNames.toArray());
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Guest guest = new Guest();
+        Reservation res = new Reservation();
+        rc.searchReservation(rs, guest);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -396,6 +416,7 @@ public class ReservationManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCheckIn;
     private javax.swing.JButton jButtonCheckOut;
