@@ -6,6 +6,7 @@
 package views;
 
 import DBCommands.DBConnection;
+import DBCommands.RoomDAO;
 import classes.Employee;
 import classes.Hotel;
 import java.sql.*;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class Dashboard extends javax.swing.JFrame {
 
+    RoomDAO roomDAO = new RoomDAO();
     private String[] rooms;
     private DBConnection conn;
     private ArrayList<String> results;
@@ -112,7 +114,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        roomList = new javax.swing.JList<>();
+        roomList = new javax.swing.JList<String>();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jRadioButtonOccupied = new javax.swing.JRadioButton();
@@ -203,6 +205,10 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(employee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nightAudit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,6 +224,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(roomSearch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(employee)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(nightAudit)
                 .addGap(18, 18, 18)
@@ -580,6 +588,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton employee;
     private javax.swing.JButton exitProgram;
     private javax.swing.JButton guestSearch;
+    private javax.swing.JButton jButton1;
     private javax.swing.ButtonGroup jButtonGroupRoomOccupiedUnoccupied;
     private javax.swing.ButtonGroup jButtonGroupRoomStatus;
     private javax.swing.JLabel jLabel1;
