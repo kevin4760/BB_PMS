@@ -45,7 +45,15 @@ public class Reservation {
         this.checkOut = checkOut;
         this.price = price;
         this.status = status; 
-    }    
+    }
+    //constructor used to build Reservation for Reservation Management Module
+    public Reservation(String resNo, String room, String checkIn, String checkOut, String guestNo) {
+        this.resNo = resNo;
+        this.roomNumber = room;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.guestNumber = guestNo;
+    }
     //end constructors
 
     /**

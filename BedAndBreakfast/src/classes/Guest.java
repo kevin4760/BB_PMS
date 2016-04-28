@@ -38,6 +38,12 @@ public class Guest{
         this.zipCode=zipCode;
         this.guestNumber=guestNumber;                      
     }
+    //constructor used to create Guest for Reservation Management Module
+    public Guest(String first, String last, String guestNo) {
+        this.firstName = first;
+        this.lastName = last;
+        this.guestNumber = guestNo;
+    }
      
     public String getFirstName() {
         return firstName;
