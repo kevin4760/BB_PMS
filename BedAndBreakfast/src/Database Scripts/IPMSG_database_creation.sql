@@ -65,3 +65,86 @@ CREATE TABLE addresses (
   CONSTRAINT addresses_fk
     FOREIGN KEY (guest_no) REFERENCES guests(guest_no)
 )
+
+DROP TABLE business_dates CASCADE CONTRAINTS;
+CREATE TABLE business_dates(
+  emp_id  VARCHAR2(10),
+  hotel_id VARCHAR2(10),
+  business_date DATE,
+  run_date DATE,
+  occupied_rooms NUMBER(10),
+  total_rooms NUMBER(10),
+  PRIMARY KEY (business_date),
+  CONSTRAINT bd_employees_fk
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
+  CONSTRAINT bd_hotel_fk
+    FOREIGN KEY (hotel_id) REFERENCES hotels(hotel_id)
+  );
+
+--begin night audit code written by Prasanna
+CREATE OR REPLACE PACKAGE night_audit AS
+    FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN hotels.hotel_id%TYPE) 
+      RETURN NUMBER;
+END night_audit;
+
+CREATE OR REPLACE FUNCTION roll_date(employee IN employees.emp_id%TYPE, hotel IN hotels.hotel_id%TYPE) 
+  RETURN NUMBER AS
+    TYPE no_show_res_type IS RECORD(
+      res_no reservations.res_no%TYPE,
+      use_count rooms.use_count%TYPE,
+      rm_no rooms.rm_no%TYPE
+    );
+    business_date_today business_dates.business_date%TYPE;
+    business_date business_dates.business_date%TYPE;
+    occupied NUMBER;
+    total NUMBER;
+    no_show_res no_show_res_type;
+    checkedin reservations%ROWTYPE;
+    --find the reservations that are due in but have not been checked in
+    CURSOR res_cursor IS SELECT a.res_no, b.use_count,b.rm_no FROM reservations a, rooms b
+      WHERE a.rm_no = b.rm_no AND a.in_date >= business_date
+        AND a.in_date <= business_date_today AND a.status=0;
+    --find the reservations that are checked in for the room use count incrememnt
+    CURSOR checkedin_cursor IS SELECT * FROM reservations 
+      WHERE status=1 AND in_date<=business_date_today AND out_date>=business_date_today;
+
+    BEGIN
+      --find the current business date
+      SELECT MAX(business_date) INTO business_date FROM business_dates;
+      --find the new business date
+      SELECT MAX(business_date) + 1 INTO business_date_today FROM business_dates;
+      --find the number of reservations that are checked in
+      SELECT COUNT(*) INTO occupied FROM reservations WHERE status = 1;
+      --find the total number of rooms in the hotel
+      SELECT COUNT(*) INTO total FROM rooms;
+
+      OPEN res_cursor;
+      OPEN checkedin_cursor;
+
+      --create a new business date record
+      INSERT 
+          INTO business_dates(emp_id, hotel_id, business_date, run_date, occupied_rooms, total_rooms)
+          VALUES (employee, hotel, business_date_today, SYSDATE, occupied, total);
+
+      LOOP
+          FETCH res_cursor INTO no_show_res;
+          EXIT WHEN res_cursor%NOTFOUND;
+          --change arrival reservations to no show
+          UPDATE reservations res SET status = 4 WHERE res.res_no = no_show_res.res_no;
+      END LOOP;
+
+      LOOP
+        FETCH checkedin_cursor INTO checkedin;
+        EXIT WHEN checkedin_cursor%NOTFOUND;
+        --add use_count for checked in reservations 
+        UPDATE rooms r SET use_count = r.use_count + 1 
+            WHERE r.rm_no = checkedin.rm_no;
+        --change all checked in rooms to dirty
+        UPDATE rooms r SET clean = 1 WHERE r.rm_no = checkedin.rm_no;
+      END LOOP;
+    RETURN 0;
+    EXCEPTION
+      WHEN DUP_VAL_ON_INDEX THEN
+      RETURN 1;
+END roll_date;
+--end night audit code
