@@ -20,8 +20,8 @@ public class Reservation {
     private String checkOut; //out_date
     private String resNo; //res_no which is unique reservation number
     private String roomNumber; //rm_no
-    private double price; //price is double in DB
-    private int status; // status is number in DB
+    private String price; //price is double in DB
+    private String status; // status is number in DB
     
     //constructors
     public Reservation() {
@@ -34,10 +34,10 @@ public class Reservation {
         this.guestNumber = guestNumber;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.price = 50.55;
-        this.status = 1; 
+        this.price = "85.00";
+        this.status = "0"; 
     }
-    public Reservation(String roomNumber, String guestNumber, String checkIn, String checkOut, double price, int status) {
+    public Reservation(String roomNumber, String guestNumber, String checkIn, String checkOut, String price, String status) {
         this.resNo = null;
         this.roomNumber  = roomNumber;
         this.guestNumber = guestNumber;
@@ -185,28 +185,28 @@ public class Reservation {
     /**
      * @return the price
      */
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
     /**
      * @param price the price to set
      */
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
     /**
      * @return the status
      */
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
