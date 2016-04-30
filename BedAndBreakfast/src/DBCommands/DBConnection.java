@@ -50,7 +50,7 @@ public class DBConnection{
         this.username = "bbpms";
         this.password = "bbpms";
         this.schema = "orcl";
-        this.server = "bbpms.ddns.net2";
+        this.server = "bbpms.ddns.net";
         this.port = 1521;
 //        connectionProps = new Properties();
 //        connectionProps.put("user", username);
