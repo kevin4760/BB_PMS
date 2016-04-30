@@ -67,8 +67,8 @@ public class ReservationDAO {
             ps.setString(3, r.getGuestNumber());
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
-            ps.setDouble(6, r.getPrice());
-            ps.setInt(7, r.getStatus());
+            ps.setString(6, r.getPrice());
+            ps.setString(7, r.getStatus());
             ps.executeQuery();
             //user message
             showMessageDialog(null, "Reservation Created: " + r.getResNo(), "Record Added", JOptionPane.INFORMATION_MESSAGE);
@@ -100,7 +100,7 @@ public class ReservationDAO {
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
-            ps.setInt(1, 1);
+            ps.setString(1, "1");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
@@ -125,7 +125,7 @@ public class ReservationDAO {
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
-            ps.setInt(1, 2);
+            ps.setString(1, "2");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
@@ -150,7 +150,7 @@ public class ReservationDAO {
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
-            ps.setInt(1, 3);
+            ps.setString(1, "3");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
@@ -174,7 +174,7 @@ public class ReservationDAO {
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
-            ps.setInt(1, 4);
+            ps.setString(1, "4");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
@@ -266,8 +266,8 @@ public class ReservationDAO {
                 " OR (g.last_name=?)"
             );//end ps
             //set values (8-?)
-            ps.setInt(1, r.getStatus());
-//            ps.setInt(1, 4);//test value
+            ps.setString(1, r.getStatus());
+//            ps.setString(1, 4);//test value
             ps.setString(2, r.getResNo());
             ps.setString(3, r.getRoomNumber());
             ps.setString(4, r.getCheckIn());
@@ -304,8 +304,8 @@ public class ReservationDAO {
                 " OR (g.last_name=?)"
             );//end ps
             //set values (8-?)
-            ps.setInt(1, r.getStatus());
-//            ps.setInt(1, 4);//test value
+            ps.setString(1, r.getStatus());
+//            ps.setString(1, 4);//test value
             ps.setString(2, r.getResNo());
             ps.setString(3, r.getRoomNumber());
             ps.setString(4, r.getCheckIn());

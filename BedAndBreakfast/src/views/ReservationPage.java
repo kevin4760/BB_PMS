@@ -600,7 +600,7 @@ public class ReservationPage extends javax.swing.JFrame {
         getNewDate();
         //set reservation obj: resNo, room no, guest no, in, out
         try {
-            res.setResNo(conn.uniqueID("reservations", "1"));//reservation number
+//            res.setResNo(conn.uniqueID("reservations", "1"));//reservation number
             res.setRoomNumber(room);
             res.setGuestNumber(guestNumber.getText());
             //        //Formats date for database
