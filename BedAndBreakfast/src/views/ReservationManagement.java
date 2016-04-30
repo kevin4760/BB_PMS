@@ -68,11 +68,11 @@ public class ReservationManagement extends javax.swing.JFrame {
         jButtonCheckOut = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
         jButtonExit = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableReservationList = new javax.swing.JTable();
         jButtonSearch = new javax.swing.JButton();
         jButtonClear = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableReservationList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,14 +139,14 @@ public class ReservationManagement extends javax.swing.JFrame {
                                 .addGroup(jPanelReservationInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jCalendarComboBoxCheckOutDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jCalendarComboBoxCheckInDate, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-                                .addGap(0, 7, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanelReservationInformationLayout.createSequentialGroup()
                                 .addGroup(jPanelReservationInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabelFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanelReservationInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldFirstName)
                                     .addComponent(jTextFieldLastName))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelReservationInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,6 +209,11 @@ public class ReservationManagement extends javax.swing.JFrame {
         });
 
         jButtonCheckOut.setText("Check Out");
+        jButtonCheckOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCheckOutActionPerformed(evt);
+            }
+        });
 
         jButtonCancel.setText("Cancel");
 
@@ -219,27 +224,6 @@ public class ReservationManagement extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jScrollPane1PropertyChange(evt);
-            }
-        });
-
-        jTableReservationList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Last Name", "First Name", "Check In Date", "Check Out Date", "Status", "Room"
-            }
-        ));
-        jTableReservationList.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTableReservationList);
-        jTableReservationList.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
         jButtonSearch.setText("Search");
         jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,12 +233,38 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         jButtonClear.setText("Clear");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jTableReservationList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Res Number", "Last Name", "First Name", "Check In Date", "Check Out Date", "Status", "Room Number"
             }
-        });
+        ));
+        jScrollPane1.setViewportView(jTableReservationList);
 
         javax.swing.GroupLayout jPanelReservationManagementLayout = new javax.swing.GroupLayout(jPanelReservationManagement);
         jPanelReservationManagement.setLayout(jPanelReservationManagementLayout);
@@ -267,6 +277,8 @@ public class ReservationManagement extends javax.swing.JFrame {
                     .addComponent(jPanelReservationInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(jPanelReservationManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelReservationManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButtonCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -274,8 +286,7 @@ public class ReservationManagement extends javax.swing.JFrame {
                         .addComponent(jButtonExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButtonSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelReservationManagementLayout.setVerticalGroup(
@@ -291,9 +302,9 @@ public class ReservationManagement extends javax.swing.JFrame {
                         .addComponent(jButtonSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonClear)))
-                .addGap(8, 8, 8)
                 .addGroup(jPanelReservationManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelReservationManagementLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addComponent(jButtonCheckIn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCheckOut)
@@ -301,10 +312,13 @@ public class ReservationManagement extends javax.swing.JFrame {
                         .addComponent(jButtonCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonExit)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addContainerGap(81, Short.MAX_VALUE))
+                    .addGroup(jPanelReservationManagementLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelReservationManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -339,10 +353,6 @@ public class ReservationManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldReservationNumberActionPerformed
 
-    private void jScrollPane1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jScrollPane1PropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jScrollPane1PropertyChange
-
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
 //        ArrayList<String> searchCriteria = new ArrayList<>();
@@ -374,10 +384,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         Guest gst = new Guest();
         res.setCheckIn(inDate);
         res.setCheckOut(outDate);
+        
+      
+        /*
         String guest_no = jTextFieldGuestNumber.getSelectedText();
         if (guest_no==null) {
             guest_no="";
-        }
+        }        
         res.setGuestNumber(guest_no);
         
         String resNo = jTextFieldReservationNumber.getSelectedText();
@@ -425,25 +438,32 @@ public class ReservationManagement extends javax.swing.JFrame {
         }
         gst.setGuestNumber(guestNo);
         
-        String[][] reservations = rc.searchReservation(res,gst);
+        //String[][] reservations = rc.searchReservation(res,gst);
         
-        String[] columnNames = {"Res No",
-            "Last Name",
-            "First Name",
-            "Check In Date",
-            "Check Out Date",
-            "Status",
-            "Room",
-            };
-        jTableReservationList = new JTable(reservations,columnNames);
+        //String[] columnNames = {"Res No",
+        //    "Last Name",
+        //    "First Name",
+        //    "Check In Date",
+        //    "Check Out Date",
+        //    "Status",
+        //    "Room",
+         //   };
+        //jTableReservationList = new JTable(reservations,columnNames);
+        */
+        rc.searchReservation(rs, gst);
+        String guestArray[][]=rc.searchReservation(rs, gst);                 
+        for(int i=0; i<guestArray.length; i++){
+            for(int column=0; column<7;column++){
+                
+               jTableReservationList.setValueAt(guestArray[i][column], i, column);
+            }
+           
+        }
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Guest guest = new Guest();
-        Reservation res = new Reservation();
-        rc.searchReservation(rs, guest);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCheckOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -482,7 +502,6 @@ public class ReservationManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCheckIn;
     private javax.swing.JButton jButtonCheckOut;
@@ -503,6 +522,7 @@ public class ReservationManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelResvNo;
     private javax.swing.JLabel jLabelRmNo;
     private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelReservationInformation;
     private javax.swing.JPanel jPanelReservationManagement;
     private javax.swing.JScrollPane jScrollPane1;
