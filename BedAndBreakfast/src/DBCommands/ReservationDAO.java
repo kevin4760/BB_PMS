@@ -186,7 +186,7 @@ public class ReservationDAO {
         }
     }//end noShowReservation()
     //Search reservaton
-    public ArrayList<ArrayList<String>> searchReservationByResNo(ArrayList<String> searchCriteria) {
+   /* public ArrayList<ArrayList<String>> searchReservationByResNo(ArrayList<String> searchCriteria) {
         
         ArrayList <ArrayList<String>> records = new ArrayList<>();
         
@@ -229,7 +229,7 @@ public class ReservationDAO {
       
         return records;
     }//end searchReservation()
-    
+    */
     
     /**
      * Author Kevin, searches reservation from database
@@ -247,7 +247,8 @@ public class ReservationDAO {
         //open db connection
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return rowInfo;
         }
@@ -273,7 +274,7 @@ public class ReservationDAO {
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
             ps.setString(6, r.getGuestNumber());
-//            ps.setString(6, "1001");//test item
+          // ps.setString(6, "1001");//test item
             ps.setString(7, g.getFirstName());
             ps.setString(8, g.getLastName());
             //execute command to the database
@@ -286,7 +287,7 @@ public class ReservationDAO {
             System.out.println(ex);
             Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+       
         rowInfo = new String[totalRows][7];//rows must be calulated first
         
         //add info to array by running query again
@@ -301,33 +302,42 @@ public class ReservationDAO {
                 " OR (r.in_date >= ? AND r.out_date <=?)" +
                 " OR (g.guest_no = ?)" +
                 " OR (g.first_name=?)" +
-                " OR (g.last_name=?)"
+                " OR (g.last_name=?)"                    
             );//end ps
             //set values (8-?)
+            
             ps.setInt(1, r.getStatus());
-//            ps.setInt(1, 4);//test value
+          // ps.setInt(1, 4);//test value
             ps.setString(2, r.getResNo());
             ps.setString(3, r.getRoomNumber());
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
             ps.setString(6, r.getGuestNumber());
-//            ps.setString(6, "1001");//test value
+          // ps.setString(6, "1001");//test value
             ps.setString(7, g.getFirstName());
             ps.setString(8, g.getLastName());
             //execute command to the database
             rs = ps.executeQuery(); 
             //add to array
+             
             int i = 0; //count for rows
-            while(rs.next()){
-                rowInfo[i][0] = rs.getString(1);
-                rowInfo[i][1] = rs.getString(2);
-                rowInfo[i][2] = rs.getString(3);
-                rowInfo[i][3] = rs.getString(4).split(" ")[0];
-                rowInfo[i][4] = rs.getString(5).split(" ")[0];
-                rowInfo[i][5] = rs.getString(6);
-                rowInfo[i][6] = rs.getString(7);
-                i++;
-            }//end while
+            try{
+                while(rs.next()){
+                    rowInfo[i][0] = rs.getString(1);
+                    rowInfo[i][1] = rs.getString(2);
+                    rowInfo[i][2] = rs.getString(3);
+                    rowInfo[i][3] = rs.getString(4).split(" ")[0];
+                    rowInfo[i][4] = rs.getString(5).split(" ")[0];
+                    rowInfo[i][5] = rs.getString(6);
+                    rowInfo[i][6] = rs.getString(7);               
+                    i++;               
+                }//end while
+            }
+            catch(Exception ex){
+                System.out.println("Here"+ex);
+            }
+         
+        
             //close DB connection
             gc.getConn().close();
         } catch(Exception ex) {
@@ -335,12 +345,12 @@ public class ReservationDAO {
             Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }//end try
         //BEGIN TEST ITEM
-//        for(int i=0; i < totalRows; i++){
-//            for(int column=0; column < 7; column++){
-//                System.out.print(rowInfo[i][column]+" ");
-//            }
-//            System.out.println();
-//        }
+       //for(int i=0; i < totalRows; i++){
+        //    for(int column=0; column < 7; column++){
+        //        System.out.print(rowInfo[i][column]+" ");
+       //     }
+       //     System.out.println();
+       // }
         //END TEST ITEM
         return rowInfo;
     }
