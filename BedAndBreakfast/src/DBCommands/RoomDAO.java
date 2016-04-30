@@ -5,6 +5,7 @@
  */
 package DBCommands;
 
+import classes.ErrorHandling;
 import classes.Room;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,12 @@ public class RoomDAO {
     //when you hit this button it adds 1 to the weight of all checked in rooms
     //this is why it should be run at 3am when most rooms will be checked in
     public void updateUse() {
-        gc.getDBConnection();
+        try {
+            gc.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         ArrayList<Room> rList = new ArrayList<>();
         //reservation status 1 means checked in
         //sql string breakdown, select all rooms from reservations and rooms where reservations are checked in
@@ -52,7 +58,7 @@ public class RoomDAO {
             }
             gc.getConn().close();
         }catch(SQLException ex) {
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }
 }

@@ -5,6 +5,7 @@
  */
 package DBCommands;
 
+import classes.ErrorHandling;
 import classes.Guest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,13 @@ public class GuestDAO {
      */
     public void insertGuest(Guest guest){
         //Gets Database Connection
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         //Inserts Into Database to Create Guest Try Catch Block
         try{
             //Inserts Information into guests data table
@@ -71,8 +78,14 @@ public class GuestDAO {
         
         //Creates the Guest List
         ArrayList<Guest> guestList=new ArrayList<>();
+        
         //Creates the Database Connection
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return guestList;
+        }
         
         //Database Search Statement
         String sql="SELECT * FROM GUESTS, ADDRESSES WHERE (GUESTS.GUEST_NO = ADDRESSES.GUEST_NO)"+
@@ -101,7 +114,13 @@ public class GuestDAO {
     //method guestUpdate()
     public void updateGuest(Guest guest) {
         //Gets Database Connection
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         //Inserts Into Database to Create Guest Try Catch Block
         try{
             //Updates information into guests data table

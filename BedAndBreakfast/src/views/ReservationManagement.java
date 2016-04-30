@@ -345,31 +345,96 @@ public class ReservationManagement extends javax.swing.JFrame {
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
-        ArrayList<String> searchCriteria = new ArrayList<>();
-        getNewDate();
+//        ArrayList<String> searchCriteria = new ArrayList<>();
+//        getNewDate();
+        date1 = jCalendarComboBoxCheckInDate.getDate();
+        date2 = jCalendarComboBoxCheckOutDate.getDate();
         DateFormat dataBaseFormat=new SimpleDateFormat("dd-MMM-yy");
         String inDate=dataBaseFormat.format(date1);      
         String outDate=dataBaseFormat.format(date2);
-        //add search criteria to the search list
-        searchCriteria.add(jTextFieldReservationNumber.getSelectedText());
-        searchCriteria.add(jComboBoxRoomNumber.getSelectedItem().toString());
-        searchCriteria.add(inDate);
-        searchCriteria.add(outDate);
-        searchCriteria.add(jTextFieldGuestNumber.getSelectedText());
-        searchCriteria.add(jComboBoxReservationStatus.getSelectedItem().toString());
-        searchCriteria.add(jTextFieldFirstName.getSelectedText());
-        searchCriteria.add(jTextFieldLastName.getSelectedText());
-        ArrayList<ArrayList<String>> reservations = 
-                rc.searchReservationByResNo(searchCriteria);
-        ArrayList<String> columnNames = new ArrayList<>();
-        columnNames.add("Last Name");
-        columnNames.add("First Name");
-        columnNames.add("Check In Date");
-        columnNames.add("Check Out Date");
-        columnNames.add("Status");
-        columnNames.add("Room");
-//        jTableReservationList.add;
-//        = new JTable(reservations.toArray(),columnNames.toArray());
+//        //add search criteria to the search list
+//        searchCriteria.add(jTextFieldReservationNumber.getSelectedText());
+//        searchCriteria.add(jComboBoxRoomNumber.getSelectedItem().toString());
+//        searchCriteria.add(inDate);
+//        searchCriteria.add(outDate);
+//        searchCriteria.add(jTextFieldGuestNumber.getSelectedText());
+//        searchCriteria.add(jComboBoxReservationStatus.getSelectedItem().toString());
+//        searchCriteria.add(jTextFieldFirstName.getSelectedText());
+//        searchCriteria.add(jTextFieldLastName.getSelectedText());
+//        ArrayList<ArrayList<String>> reservations = 
+//                rc.searchReservationByResNo(searchCriteria);
+//        ArrayList<String> columnNames = new ArrayList<>();
+//        columnNames.add("Last Name");
+//        columnNames.add("First Name");
+//        columnNames.add("Check In Date");
+//        columnNames.add("Check Out Date");
+//        columnNames.add("Status");
+//        columnNames.add("Room");
+        Reservation res = new Reservation();
+        Guest gst = new Guest();
+        res.setCheckIn(inDate);
+        res.setCheckOut(outDate);
+        String guest_no = jTextFieldGuestNumber.getSelectedText();
+        if (guest_no==null) {
+            guest_no="";
+        }
+        res.setGuestNumber(guest_no);
+        
+        String resNo = jTextFieldReservationNumber.getSelectedText();
+        if (resNo == null){
+            resNo="";
+        }
+        res.setResNo(resNo);
+        
+        String rmNo;
+        Object rmObject = jComboBoxRoomNumber.getSelectedItem();
+        if (rmObject == null){
+            rmNo="";
+        } else {
+            rmNo = String.valueOf(rmObject);
+        }
+        res.setRoomNumber(rmNo);
+        
+        String status;
+        Object statusObject = jComboBoxReservationStatus.getSelectedItem();
+        if (statusObject == null){
+            res.setStatus(0);
+        } else {
+            status = String.valueOf(statusObject);
+            System.out.println(status);
+            res.setStatus(Integer.parseInt(status));
+        }
+        
+        
+        String lastName = jTextFieldLastName.getSelectedText();
+        if (lastName == null){
+            lastName = "";
+        }
+        gst.setLastName(lastName);
+        
+        String firstName = jTextFieldFirstName.getSelectedText();
+        if (firstName == null) {
+            firstName = "";
+        }
+        gst.setFirstName(firstName);
+        
+        String guestNo = jTextFieldGuestNumber.getSelectedText();
+        if (guestNo == null){
+            guestNo = "";
+        }
+        gst.setGuestNumber(guestNo);
+        
+        String[][] reservations = rc.searchReservation(res,gst);
+        
+        String[] columnNames = {"Res No",
+            "Last Name",
+            "First Name",
+            "Check In Date",
+            "Check Out Date",
+            "Status",
+            "Room",
+            };
+        jTableReservationList = new JTable(reservations,columnNames);
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

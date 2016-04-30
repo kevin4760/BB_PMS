@@ -8,6 +8,7 @@ package views;
 import DBCommands.DBConnection;
 import DBCommands.RoomDAO;
 import classes.Employee;
+import classes.ErrorHandling;
 import classes.Hotel;
 import java.sql.*;
 import java.sql.SQLException;
@@ -36,7 +37,12 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();  //
         //
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         
         //populate roomList
         results = conn.getresults("SELECT rm_no from rooms", 1);
@@ -56,10 +62,17 @@ public class Dashboard extends javax.swing.JFrame {
         //edits jButtons
     }
     public Dashboard(Employee emp, Hotel hotel) {
+        this.emp = emp;
+        this.hotel = hotel;
         initComponents();  //
         //
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         
         //populate roomList
         results = conn.getresults("SELECT rm_no from rooms", 1);
@@ -68,9 +81,6 @@ public class Dashboard extends javax.swing.JFrame {
             rooms[i] = results.get(i);
         }
         roomList.setListData(rooms);
-        
-        this.emp = emp;
-        this.hotel = hotel;
         //end roomList
         
         //checks the number of guest checked in
@@ -133,6 +143,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(hotel.getHotelName());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -154,7 +165,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        reservationSearch.setText("Reservation Search");
+        reservationSearch.setText("Reservation Management");
         reservationSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reservationSearchActionPerformed(evt);
@@ -513,7 +524,7 @@ public class Dashboard extends javax.swing.JFrame {
         if (roomStatus == 1) {
             jRadioButtonClean.setSelected(false);
             jRadioButtonDirty.setSelected(true);
-        };
+        }
     }//GEN-LAST:event_roomListValueChanged
 
     private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
@@ -526,19 +537,20 @@ public class Dashboard extends javax.swing.JFrame {
         int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.YES_OPTION){
             //Run Night Audit Statement
-            String sql="? = call roll_date(?,?)";
+            String sql="{? = call roll_date(?,?)}";
             //Adds the Information to the Search ComboBox
             try{
                 stmt = conn.getConn().prepareCall(sql);
-                stmt.registerOutParameter(1, Types.BOOLEAN);                
-                stmt.setString(1, emp.getEmployeeID());
-                stmt.setString(2, hotel.getHotelID());
+                stmt.registerOutParameter(1, Types.INTEGER);                
+                stmt.setString(2, emp.getEmployeeID());
+                stmt.setString(3, hotel.getHotelID());
+                //System.out.println(emp.getEmployeeID() + hotel.getHotelID());
                 stmt.executeQuery();
-                if (stmt.getBoolean(1)){
+                if (stmt.getInt(1)==0){
                     JOptionPane.showMessageDialog(null, "Night Audit ran successfully","Night Audit", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex){
-                ex.printStackTrace();
+                ErrorHandling.displayException(ex);
             }
         }
     }//GEN-LAST:event_nightAuditActionPerformed
