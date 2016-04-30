@@ -537,14 +537,14 @@ public class Dashboard extends javax.swing.JFrame {
         int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.YES_OPTION){
             //Run Night Audit Statement
-            String sql="? = call roll_date(?,?);";
+            String sql="{? = call roll_date(?,?)}";
             //Adds the Information to the Search ComboBox
             try{
                 stmt = conn.getConn().prepareCall(sql);
                 stmt.registerOutParameter(1, Types.INTEGER);                
                 stmt.setString(2, emp.getEmployeeID());
                 stmt.setString(3, hotel.getHotelID());
-                System.out.println(emp.getEmployeeID() + hotel.getHotelID());
+                //System.out.println(emp.getEmployeeID() + hotel.getHotelID());
                 stmt.executeQuery();
                 if (stmt.getInt(1)==0){
                     JOptionPane.showMessageDialog(null, "Night Audit ran successfully","Night Audit", JOptionPane.INFORMATION_MESSAGE);
