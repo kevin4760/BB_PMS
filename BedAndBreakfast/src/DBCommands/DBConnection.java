@@ -142,6 +142,8 @@ public class DBConnection{
 //        return access;        
 //    }
     //
+    
+    /* Commented out because guest DOA now covers this issue
     //Set Guest Information Method
     public void setGuestInfo(String guestNumber, String first, 
             String last, String title){
@@ -190,7 +192,7 @@ public class DBConnection{
 //        }
 //    }
     
-    //UNDER CONSTRUCTION: Searchs for Guest, last name only at this point
+   
     public ArrayList<String> searchGuests(String lastName, String firstName){
         ArrayList<String> name =new ArrayList<>();       
         try {
@@ -212,7 +214,7 @@ public class DBConnection{
         }
         return name;
     }
-
+*/
      //method returns one value from database
     public int getRoomStatus(String query) {
         int roomStatus = 3; //3 will be invalid input
