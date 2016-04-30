@@ -150,7 +150,8 @@ public class LoginPage extends javax.swing.JFrame {
         emp.setUserName(username.getText().toUpperCase());
         emp.setPassword(new String(password.getPassword()));
         if(empDAO.validateUser(emp)){
-            new Dashboard(emp, hotel).setVisible(rootPaneCheckingEnabled);
+            Dashboard dashboard = new Dashboard(emp, hotel);
+            dashboard.setVisible(rootPaneCheckingEnabled);
             this.dispose();
         } else{
             showMessageDialog(null, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);

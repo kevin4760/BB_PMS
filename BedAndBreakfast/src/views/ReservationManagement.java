@@ -374,13 +374,56 @@ public class ReservationManagement extends javax.swing.JFrame {
         Guest gst = new Guest();
         res.setCheckIn(inDate);
         res.setCheckOut(outDate);
-        res.setGuestNumber(jTextFieldGuestNumber.getSelectedText());
-        res.setResNo(jTextFieldReservationNumber.getSelectedText());
-        res.setRoomNumber(jComboBoxRoomNumber.getSelectedItem().toString());
-        res.setStatus(Integer.parseInt(jComboBoxReservationStatus.getSelectedItem().toString()));
-        gst.setLastName(jTextFieldLastName.getSelectedText());
-        gst.setFirstName(jTextFieldFirstName.getSelectedText());
-        gst.setGuestNumber(jTextFieldGuestNumber.getSelectedText());
+        String guest_no = jTextFieldGuestNumber.getSelectedText();
+        if (guest_no==null) {
+            guest_no="";
+        }
+        res.setGuestNumber(guest_no);
+        
+        String resNo = jTextFieldReservationNumber.getSelectedText();
+        if (resNo == null){
+            resNo="";
+        }
+        res.setResNo(resNo);
+        
+        String rmNo;
+        Object rmObject = jComboBoxRoomNumber.getSelectedItem();
+        if (rmObject == null){
+            rmNo="";
+        } else {
+            rmNo = String.valueOf(rmObject);
+        }
+        res.setRoomNumber(rmNo);
+        
+        String status;
+        Object statusObject = jComboBoxReservationStatus.getSelectedItem();
+        if (statusObject == null){
+            res.setStatus(0);
+        } else {
+            status = String.valueOf(statusObject);
+            System.out.println(status);
+            res.setStatus(Integer.parseInt(status));
+        }
+        
+        
+        String lastName = jTextFieldLastName.getSelectedText();
+        if (lastName == null){
+            lastName = "";
+        }
+        gst.setLastName(lastName);
+        
+        String firstName = jTextFieldFirstName.getSelectedText();
+        if (firstName == null) {
+            firstName = "";
+        }
+        gst.setFirstName(firstName);
+        
+        String guestNo = jTextFieldGuestNumber.getSelectedText();
+        if (guestNo == null){
+            guestNo = "";
+        }
+        gst.setGuestNumber(guestNo);
+        
         String[][] reservations = rc.searchReservation(res,gst);
         
         String[] columnNames = {"Res No",

@@ -62,6 +62,8 @@ public class Dashboard extends javax.swing.JFrame {
         //edits jButtons
     }
     public Dashboard(Employee emp, Hotel hotel) {
+        this.emp = emp;
+        this.hotel = hotel;
         initComponents();  //
         //
         conn = new DBConnection();
@@ -79,9 +81,6 @@ public class Dashboard extends javax.swing.JFrame {
             rooms[i] = results.get(i);
         }
         roomList.setListData(rooms);
-        
-        this.emp = emp;
-        this.hotel = hotel;
         //end roomList
         
         //checks the number of guest checked in
@@ -144,6 +143,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(hotel.getHotelName());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -165,7 +165,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        reservationSearch.setText("Reservation Search");
+        reservationSearch.setText("Reservation Management");
         reservationSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reservationSearchActionPerformed(evt);
