@@ -144,9 +144,9 @@ public class LoginPage extends javax.swing.JFrame {
 
     private void enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterActionPerformed
         // validates username and password moves to reservation screen
-        DBConnection gc = new DBConnection();
-        gc.getDBConnection();
-        emp.setUserName(username.getText());
+//        DBConnection gc = new DBConnection();
+//        gc.getDBConnection();
+        emp.setUserName(username.getText().toUpperCase());
         emp.setPassword(new String(password.getPassword()));
         if(empDAO.validateUser(emp)){
             new Dashboard(emp, hotel).setVisible(rootPaneCheckingEnabled);

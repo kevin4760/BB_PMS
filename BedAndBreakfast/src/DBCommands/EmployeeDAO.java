@@ -6,6 +6,7 @@
 package DBCommands;
 
 import classes.Employee;
+import classes.ErrorHandling;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +49,12 @@ public class EmployeeDAO {
      * @param employee 
      */
     public void insertEmployee(Employee employee) {
-        gc.getDBConnection();
+        try {
+            gc.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         try {
             ps = gc.getConn().prepareStatement
                 ("INSERT INTO employees VALUES(?, ?, ?, ?, ?, ?)");
@@ -80,7 +86,12 @@ public class EmployeeDAO {
         //create the arraylist
         ArrayList<Employee> empList = new ArrayList<>();
         //connect to db
-        gc.getDBConnection();
+        try {
+            gc.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return empList;
+        }
         //search string that uses all possible fields other than password
         String sql = "SELECT * FROM EMPLOYEES WHERE (emp_id = '"+ employeeID +"') OR "
                 + "(last_name = '" + lastName + "' AND first_name = '"+ firstName+"') OR "
@@ -95,7 +106,7 @@ public class EmployeeDAO {
                 empList.add(new Employee(rs.getString(4),rs.getString(3),rs.getString(1),rs.getString(5),rs.getString(6)));
             }//end while
         } catch(SQLException ex) {
-            System.out.println("whoops"); //replace with a real exception
+            //System.out.println("whoops"); //replace with a real exception
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        //TESTING ITEM ITERATE THROUGH LIST
@@ -108,7 +119,12 @@ public class EmployeeDAO {
     
     //Update Employee
     public void updateEmployee (Employee employee) {
-        gc.getDBConnection();
+        try {
+            gc.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         try {
             ps = gc.getConn().prepareStatement("UPDATE employees SET hotel_id=?, last_name=?, first_name=?, user_name=?, password=? WHERE emp_id=?" );
             ps.setString(1, employee.getHotelID());
@@ -128,7 +144,12 @@ public class EmployeeDAO {
     
     //delete employee
     public void deleteEmployee(String empID) {
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         try{
             ps = gc.getConn().prepareStatement("DELETE FROM employees WHERE emp_id=?" );
             ps.setString(1, empID);
@@ -143,7 +164,12 @@ public class EmployeeDAO {
     //vaidate user for login   
     //method validateUser()
     public Boolean validateUser(Employee emp) {
-        gc.getDBConnection();
+        try {
+            gc.getDBConnection();
+        } catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return false;
+        }
         String user = emp.getUserName();
         String pass = emp.getPassword();
         Boolean access = false;
@@ -164,7 +190,7 @@ public class EmployeeDAO {
                 access = false;
             gc.getConn().close();
         } catch(SQLException ex) {
-            System.out.println(ex);
+            ErrorHandling.displayException(ex);
         }
         return access;        
     }
