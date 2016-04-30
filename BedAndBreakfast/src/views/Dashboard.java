@@ -8,6 +8,7 @@ package views;
 import DBCommands.DBConnection;
 import DBCommands.RoomDAO;
 import classes.Employee;
+import classes.ErrorHandling;
 import classes.Hotel;
 import java.sql.*;
 import java.sql.SQLException;
@@ -36,7 +37,12 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();  //
         //
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         
         //populate roomList
         results = conn.getresults("SELECT rm_no from rooms", 1);
@@ -59,7 +65,12 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();  //
         //
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         
         //populate roomList
         results = conn.getresults("SELECT rm_no from rooms", 1);
