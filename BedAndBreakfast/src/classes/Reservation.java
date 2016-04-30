@@ -37,6 +37,23 @@ public class Reservation {
         this.price = 50.55;
         this.status = 1; 
     }
+    public Reservation(String roomNumber, String guestNumber, String checkIn, String checkOut, double price, int status) {
+        this.resNo = null;
+        this.roomNumber  = roomNumber;
+        this.guestNumber = guestNumber;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.price = price;
+        this.status = status; 
+    }
+    //constructor used to build Reservation for Reservation Management Module
+    public Reservation(String resNo, String room, String checkIn, String checkOut, String guestNo) {
+        this.resNo = resNo;
+        this.roomNumber = room;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.guestNumber = guestNo;
+    }
     //end constructors
 
     /**

@@ -7,10 +7,7 @@ package DBCommands;
 
 import java.util.*;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -118,26 +115,27 @@ public class DBConnection{
         }     
     }
     
-    //method validateUser()
-    public Boolean validateUser(String username, String password) {
-        
-        Boolean access = false;
-        try {
-            String sql = "SELECT * FROM employees WHERE user_name='" + username + 
-                "' and password='" + password +"'";
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if(rs.next()){
-                access = true;
-                rs.close();
-            } else 
-                access = false;
-            rs.close();
-        } catch(SQLException ex) {
-            System.out.println(ex);
-        }
-        return access;        
-    }
+//    //method moved to employeeDAO, DELETE on clean up
+//    //method validateUser()
+//    public Boolean validateUser(String user, char[] input) {
+//        String pass = new String(input);
+//        Boolean access = false;
+//        try {
+//            String sql = "SELECT * FROM employees WHERE user_name='" + user + 
+//                "' and password='" + pass +"'";
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery(sql);
+//            if(rs.next()){
+//                access = true;
+//                rs.close();
+//            } else 
+//                access = false;
+//            rs.close();
+//        } catch(SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        return access;        
+//    }
     //
     //Set Guest Information Method
     public void setGuestInfo(String guestNumber, String first, 
@@ -284,9 +282,8 @@ public class DBConnection{
         return -1;
     }
     
-    //creates a uniqueID
     /**
-     * 
+     * Creates a uniqueID used for DB id creation
      * @param table the DB Table that you will insert 
      * @param column Must be the ID column usually "1"
      * @return

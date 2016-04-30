@@ -139,4 +139,33 @@ public class EmployeeDAO {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);  
         }
     }
+    
+    //vaidate user for login   
+    //method validateUser()
+    public Boolean validateUser(Employee emp) {
+        gc.getDBConnection();
+        String user = emp.getUserName();
+        String pass = emp.getPassword();
+        Boolean access = false;
+        try {
+            String sql = "SELECT * FROM employees WHERE user_name='" + user + 
+                "' and password='" + pass +"'";
+            stmt = gc.getConn().createStatement();
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                emp.setEmployeeID(rs.getString(1));
+                emp.setHotelID(rs.getString(2));
+                emp.setLastName(rs.getString(3));
+                emp.setFirstName(rs.getString(4));
+                emp.setUserName(rs.getString(5));
+                emp.setPassword(rs.getString(6));
+                access = true;
+            } else 
+                access = false;
+            gc.getConn().close();
+        } catch(SQLException ex) {
+            System.out.println(ex);
+        }
+        return access;        
+    }
 }
