@@ -30,6 +30,7 @@ public class LoginPage extends javax.swing.JFrame {
  
     public LoginPage() {
         initComponents();
+        jPanel1.getRootPane().setDefaultButton(enter);
     }
 
     /**
@@ -144,12 +145,13 @@ public class LoginPage extends javax.swing.JFrame {
 
     private void enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterActionPerformed
         // validates username and password moves to reservation screen
-        DBConnection gc = new DBConnection();
-        gc.getDBConnection();
-        emp.setUserName(username.getText());
+//        DBConnection gc = new DBConnection();
+//        gc.getDBConnection();
+        emp.setUserName(username.getText().toUpperCase());
         emp.setPassword(new String(password.getPassword()));
         if(empDAO.validateUser(emp)){
-            new Dashboard(emp, hotel).setVisible(rootPaneCheckingEnabled);
+            Dashboard dashboard = new Dashboard(emp, hotel);
+            dashboard.setVisible(rootPaneCheckingEnabled);
             this.dispose();
         } else{
             showMessageDialog(null, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);

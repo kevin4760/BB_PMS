@@ -5,8 +5,11 @@
  */
 package DBCommands;
 
+import classes.ErrorHandling;
 import java.util.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -99,7 +102,7 @@ public class DBConnection{
     
     
     //method getDBConnection(), 
-    public void getDBConnection(){
+    public void getDBConnection() throws SQLException{
         //this string is broke into these "jdbc:oracle:thin:username:passowrd@location:port:databasename
         //jdbc:oracle:thin:@server:port:schema        
         URL = "jdbc:oracle:thin:" + "@" + server + ":" + port +
@@ -109,9 +112,11 @@ public class DBConnection{
             this.conn = DriverManager.getConnection(URL, username, password);
             //System.out.println("DB Connection Made");
         } catch(SQLException ex) {
+//            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
             //System.out.println(ex.getMessage());
-            showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("did not connect to DB");
+            //showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            //System.out.println("did not connect to DB");
         }     
     }
     

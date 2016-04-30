@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import DBCommands.GuestDAO;
+import classes.ErrorHandling;
 import classes.Guest;
 
 
@@ -52,7 +53,12 @@ public class ReservationPage extends javax.swing.JFrame {
         initComponents();
            
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+//            return;
+        }
         
         results = conn.getresults("select rm_no from rooms order by"
                 + " use_count asc");

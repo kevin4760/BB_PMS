@@ -5,6 +5,7 @@
  */
 package DBCommands;
 
+import classes.ErrorHandling;
 import classes.Guest;
 import classes.Reservation;
 
@@ -47,7 +48,13 @@ public class ReservationDAO {
     //insert reservation -> ReservationPage.book
     public void insertReservation(Reservation r) {
         //connects to database
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         //need method to get guest and room number
         try{
             //creates unique reservation number sets to current reservation
@@ -83,7 +90,13 @@ public class ReservationDAO {
     //check in reservaton
     public void checkInReservation(Reservation r) {
         //connects to database
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
@@ -102,7 +115,13 @@ public class ReservationDAO {
     //check out reservaton
     public void checkOutReservation(Reservation r) {
         //connects to database
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
@@ -121,7 +140,13 @@ public class ReservationDAO {
     //cancel reservaton
     public void cancelReservation(Reservation r) {
         //connects to database
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
@@ -139,7 +164,13 @@ public class ReservationDAO {
     //no show reservaton
     public void noShowReservation(Reservation r) {
         //connects to database
-        gc.getDBConnection();
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
+        
         try{
             ps=gc.getConn().prepareStatement
                 ("UPDATE reservations SET status=? where res_no=?");
@@ -156,9 +187,17 @@ public class ReservationDAO {
     }//end noShowReservation()
     //Search reservaton
     public ArrayList<ArrayList<String>> searchReservationByResNo(ArrayList<String> searchCriteria) {
-        //connects to database
-        gc.getDBConnection();
+        
         ArrayList <ArrayList<String>> records = new ArrayList<>();
+        
+        //connects to database
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return records;
+        }
+        
         ArrayList <String> record = new ArrayList();
         //need method to get guest and room number
         try{
@@ -199,9 +238,20 @@ public class ReservationDAO {
      * @return 2D String Array
      */
     public String[][] searchReservation(Reservation r, Guest g) {
+       
+        int totalRows = 0; //initiliazes totalRows for the try-catch
+        
+        //create array
+        String[][] rowInfo = new String[totalRows][0]; //initializes rowInfo for the try-catch
+                    
         //open db connection
-        gc.getDBConnection();
-        int totalRows = 0;
+        try{
+            gc.getDBConnection();
+        }catch(SQLException ex){
+            ErrorHandling.displayException(ex);
+            return rowInfo;
+        }
+        
         try{
             //create search statement used in oracle
             ps = gc.getConn().prepareStatement(
@@ -237,8 +287,7 @@ public class ReservationDAO {
             Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //create array
-        String[][] rowInfo = new String[totalRows][7];//rows must be calulated first
+        rowInfo = new String[totalRows][7];//rows must be calulated first
         
         //add info to array by running query again
         try{

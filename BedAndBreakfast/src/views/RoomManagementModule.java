@@ -6,6 +6,8 @@
 package views;
 
 import DBCommands.DBConnection;
+import classes.ErrorHandling;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,12 @@ public class RoomManagementModule extends javax.swing.JFrame {
     public RoomManagementModule() {
         initComponents();
         conn = new DBConnection();
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         results = conn.getresults("select rm_no,clean from rooms");
         rooms = new String[results.size()];
         for (int i = 0; i < results.size(); i++){
@@ -38,7 +45,12 @@ public class RoomManagementModule extends javax.swing.JFrame {
     public RoomManagementModule(DBConnection conn) {
         initComponents();
         this.conn = conn;
-        conn.getDBConnection();
+        try {
+            conn.getDBConnection();
+        } catch (SQLException ex){
+            ErrorHandling.displayException(ex);
+            return;
+        }
         results = conn.getresults("select rm_no,clean from rooms");
         rooms = new String[results.size()];
         for (int i = 0; i < results.size(); i++){
