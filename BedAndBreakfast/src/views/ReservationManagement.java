@@ -395,14 +395,15 @@ public class ReservationManagement extends javax.swing.JFrame {
         }
         res.setRoomNumber(rmNo);
         
+        //this may still be broke right here
         String status;
         Object statusObject = jComboBoxReservationStatus.getSelectedItem();
         if (statusObject == null){
-            res.setStatus(0);
+            res.setStatus("0");
         } else {
             status = String.valueOf(statusObject);
             System.out.println(status);
-            res.setStatus(Integer.parseInt(status));
+            res.setStatus((status));
         }
         
         
