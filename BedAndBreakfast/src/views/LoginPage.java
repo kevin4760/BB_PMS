@@ -30,6 +30,7 @@ public class LoginPage extends javax.swing.JFrame {
  
     public LoginPage() {
         initComponents();
+        jPanel1.getRootPane().setDefaultButton(enter);
     }
 
     /**

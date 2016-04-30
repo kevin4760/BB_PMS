@@ -30,22 +30,25 @@ public class ErrorHandling extends Exception{
     //WORK IN PROGRESS- method that takes the SQL exception being thrown and just gives the generic SQL exception message for it.
     public static void displayException(SQLException ex){
         switch (ex.getErrorCode()){
-            case 00001:
+            case 1:
                 showMessageDialog(null, "Duplicate entry", "Duplicate", JOptionPane.ERROR_MESSAGE);
                 break;
             case 12154:
                 showMessageDialog(null, "Could not the find the server or network issues", "Server not found", JOptionPane.ERROR_MESSAGE);
                 break;
-            case 00600:
+            case 600:
                 showMessageDialog(null, "Something is really bad with your server", "Database issues", JOptionPane.ERROR_MESSAGE);
                 break;
-            case 01722:
-                showMessageDialog(null, "Are you sure you are sober", "User error", JOptionPane.ERROR_MESSAGE);
+            case 900:
+                showMessageDialog(null, "Please call your developers", "Application error", JOptionPane.ERROR_MESSAGE);
                 break;
-            case 03113:
-                showMessageDialog(null, "Somebody forgot pay their bills and connection died", "Disconnected", JOptionPane.ERROR_MESSAGE);
+            case 1722:
+                showMessageDialog(null, "Please use a number not a string", "Error", JOptionPane.ERROR_MESSAGE);
                 break;
-            case 01000:
+            case 3113:
+                showMessageDialog(null, "Connection has been terminated!", "Disconnected", JOptionPane.ERROR_MESSAGE);
+                break;
+            case 1000:
                 showMessageDialog(null, "Max number of connections/workers reached", "You are working too hard", JOptionPane.ERROR_MESSAGE);
                 break;
             default:
