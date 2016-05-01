@@ -12,8 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author Kevin
@@ -39,7 +38,8 @@ public class RoomDAO {
         ArrayList<Room> rList = new ArrayList<>();
         //reservation status 1 means checked in
         //sql string breakdown, select all rooms from reservations and rooms where reservations are checked in
-        String sql = "SELECT * FROM reservations, rooms WHERE reservations.rm_no = rooms.rm_no AND reservations.status = 1";
+        String sql = "SELECT * FROM reservations, rooms WHERE "
+                + "reservations.rm_no = rooms.rm_no AND reservations.status = 1";
         try {
             //connect DB
             stmt = gc.getConn().createStatement();
@@ -49,7 +49,8 @@ public class RoomDAO {
             }//end while-> all checked in rooms are now in the ArrayList
         
             //updates room
-            ps = gc.getConn().prepareCall("UPDATE rooms SET use_count = use_count + 1 WHERE rm_no=?");
+            ps = gc.getConn().prepareCall("UPDATE rooms SET "
+                    + "use_count = use_count + 1 WHERE rm_no=?");
             for (Room rList1 : rList) {
                 //insert and run ps
                 ps.setString(1, rList1.getRmNO());
