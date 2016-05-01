@@ -69,9 +69,6 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-      <Connection code="hotel.getHotelName()" type="code"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -411,6 +408,7 @@
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="new javax.swing.AbstractListModel() {&#xa;        String[] strings = { &quot;120&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;, &quot;14&quot;, &quot;15&quot; };&#xa;    //  Start new code&#xa;&#xa;    //  end new code&#xa;    public int getSize() { return strings.length; }&#xa;    public Object getElementAt(int i) { return strings[i]; }&#xa;}" type="code"/>
                     </Property>
+                    <Property name="selectionMode" type="int" value="1"/>
                   </Properties>
                   <Events>
                     <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="roomListPropertyChange"/>
@@ -439,38 +437,25 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jRadioButtonClean" min="-2" max="-2" attributes="0"/>
-                          <Component id="jRadioButtonUnoccupied" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jRadioButtonDirty" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
-                          <Component id="jRadioButtonOccupied" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="17" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                       <Component id="jRadioButtonClean" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jRadioButtonDirty" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                      <Component id="jRadioButtonOccupied" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jRadioButtonUnoccupied" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JRadioButton" name="jRadioButtonOccupied">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="jButtonGroupRoomOccupiedUnoccupied"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Occupied"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonClean">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -487,20 +472,12 @@
                 <Property name="text" type="java.lang.String" value="Dirty"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButtonUnoccupied">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="jButtonGroupRoomOccupiedUnoccupied"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Unoccupied"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Room Status"/>
+            <Property name="text" type="java.lang.String" value="Room Status Information"/>
           </Properties>
         </Component>
       </SubComponents>

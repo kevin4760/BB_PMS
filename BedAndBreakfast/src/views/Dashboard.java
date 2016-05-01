@@ -29,6 +29,7 @@ public class Dashboard extends javax.swing.JFrame {
     private int roomStatus;
     private Employee emp;
     private Hotel hotel;
+    private String businessDate;
     /**
      * Creates new form Dashboard
      */
@@ -45,7 +46,7 @@ public class Dashboard extends javax.swing.JFrame {
         }
         
         //populate roomList
-        results = conn.getresults("SELECT rm_no from rooms", 1);
+        results = conn.getresults("SELECT rm_no FROM rooms", 1);
         rooms = new String[results.size()];
         for (int i = 0; i < results.size(); i++ ) {
             rooms[i] = results.get(i);
@@ -54,12 +55,16 @@ public class Dashboard extends javax.swing.JFrame {
         //end roomList
         
         //checks the number of guest checked in
-        
+        int numberOfGuests = conn.runquery("SELECT * FROM reservations "
+                + "WHERE status='1'");
+        System.out.println(numberOfGuests);
+        numberGuest.setText("" + numberOfGuests);
         //checks occupied and unoccupied rooms
         
         //percent used
         
         //edits jButtons
+        repaint();
     }
     public Dashboard(Employee emp, Hotel hotel) {
         this.emp = emp;
@@ -74,25 +79,47 @@ public class Dashboard extends javax.swing.JFrame {
             ErrorHandling.displayException(ex);
             return;
         }
+        //Get business date
+        refreshBusinessDate();
         
+        //edits jButtons
+    }
+    
+    private void refreshBusinessDate(){
         //populate roomList
-        results = conn.getresults("SELECT rm_no from rooms", 1);
+        results = conn.getresults("SELECT rm_no FROM rooms", 1);
         rooms = new String[results.size()];
         
         for (int i = 0; i < results.size(); i++ ) {
             rooms[i] = results.get(i);
         }
-        
         roomList.setListData(rooms);
         //end roomList
-        
+
+        results = conn.getresults("SELECT to_char(business_date + 1, 'DD-MON-YY') FROM business_dates WHERE rownum = 1 ORDER BY business_date DESC",1);
+        businessDate = results.get(0);
+        setTitle(hotel.getHotelName() + " " + businessDate);
         //checks the number of guest checked in
-        
+        results = conn.getresults("SELECT count(*) FROM reservations " +
+                "WHERE in_date <= '" + businessDate + "' AND out_date >='" + businessDate +
+                "' AND status IN ('0','1','2')", 1);
+        int numberOfGuests = results.size();
+        numberGuest.setText("" + numberOfGuests);        
+
         //checks occupied and unoccupied rooms
+        results = conn.getresults("SELECT count(*) FROM reservations WHERE status = '1'",1);
+        int occupied = Integer.parseInt(results.get(0));
+        occupiedRooms.setText("" + occupied);
         
+        //get total Rooms
+        results = conn.getresults("select count(*) from rooms", 1);
+        int total = Integer.parseInt(results.get(0));
+        unoccupiedRooms.setText("" + (total - occupied));
+
         //percent used
-        
-        //edits jButtons
+        double occupied_rooms = (double) occupied;
+        Double percentageUsed = occupied_rooms / total * 100;
+        percentUsed.setText("" + percentageUsed);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,10 +157,8 @@ public class Dashboard extends javax.swing.JFrame {
         roomList = new javax.swing.JList<>();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jRadioButtonOccupied = new javax.swing.JRadioButton();
         jRadioButtonClean = new javax.swing.JRadioButton();
         jRadioButtonDirty = new javax.swing.JRadioButton();
-        jRadioButtonUnoccupied = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -146,7 +171,6 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(hotel.getHotelName());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -311,6 +335,7 @@ public class Dashboard extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        roomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         roomList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 roomListPropertyChange(evt);
@@ -347,17 +372,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
-        jButtonGroupRoomOccupiedUnoccupied.add(jRadioButtonOccupied);
-        jRadioButtonOccupied.setText("Occupied");
-
         jButtonGroupRoomStatus.add(jRadioButtonClean);
         jRadioButtonClean.setText("Clean");
 
         jButtonGroupRoomStatus.add(jRadioButtonDirty);
         jRadioButtonDirty.setText("Dirty");
-
-        jButtonGroupRoomOccupiedUnoccupied.add(jRadioButtonUnoccupied);
-        jRadioButtonUnoccupied.setText("Unoccupied");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -367,26 +386,21 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioButtonClean)
-                    .addComponent(jRadioButtonUnoccupied)
-                    .addComponent(jRadioButtonDirty, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButtonOccupied))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadioButtonDirty, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addComponent(jRadioButtonClean)
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButtonDirty)
-                .addGap(17, 17, 17)
-                .addComponent(jRadioButtonOccupied)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButtonUnoccupied))
+                .addGap(40, 40, 40))
         );
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Room Status");
+        jLabel8.setText("Room Status Information");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -562,6 +576,7 @@ public class Dashboard extends javax.swing.JFrame {
                 ErrorHandling.displayException(ex);
             }
         }
+        refreshBusinessDate();
     }//GEN-LAST:event_nightAuditActionPerformed
 
     /**
@@ -629,8 +644,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JRadioButton jRadioButtonClean;
     private javax.swing.JRadioButton jRadioButtonDirty;
-    private javax.swing.JRadioButton jRadioButtonOccupied;
-    private javax.swing.JRadioButton jRadioButtonUnoccupied;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton nightAudit;
     private javax.swing.JTextField numberGuest;
