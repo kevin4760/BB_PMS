@@ -88,13 +88,13 @@
                           <Component id="jButtonCancel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButtonExit" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="81" max="32767" attributes="0"/>
+                          <EmptySpace pref="70" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel1" max="32767" attributes="0"/>
-                              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                              <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -132,38 +132,38 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabeLCheckOutDate" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelCheckInDate" min="-2" pref="82" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                              <Component id="jLabelCheckInDate" min="-2" pref="82" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabeLCheckOutDate" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jCalendarComboBoxCheckOutDate" max="32767" attributes="0"/>
                                           <Component id="jCalendarComboBoxCheckInDate" pref="120" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabelLastName" min="-2" pref="31" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldLastName" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabelLastName" min="-2" pref="31" max="-2" attributes="0"/>
-                                          <Component id="jLabelFirstName" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabelFirstName" min="-2" pref="31" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextFieldFirstName" max="32767" attributes="0"/>
-                                          <Component id="jTextFieldLastName" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jTextFieldFirstName" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabelRmNo" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelStatus" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelReservationNumber" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelGuestNumber" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace pref="10" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jComboBoxRoomNumber" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                                   <Component id="jComboBoxReservationStatus" min="-2" max="-2" attributes="0"/>
@@ -183,16 +183,19 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelResvNo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jLabelCheckInDate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCalendarComboBoxCheckInDate" min="-2" pref="20" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCalendarComboBoxCheckOutDate" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabeLCheckOutDate" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                      <Component id="jLabelCheckInDate" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jCalendarComboBoxCheckInDate" min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jCalendarComboBoxCheckOutDate" max="32767" attributes="0"/>
+                                  <Component id="jLabeLCheckOutDate" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -209,17 +212,17 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextFieldFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelLastName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelReservationNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldReservationNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldLastName" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextFieldLastName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelGuestNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldGuestNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -344,6 +347,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonExit">
           <Properties>
@@ -365,6 +371,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClearActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
 
@@ -398,7 +407,7 @@
             <Component class="javax.swing.JTable" name="jTableReservationList">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="11">
+                  <Table columnCount="7" rowCount="25">
                     <Column editable="true" title="Res Number" type="java.lang.Object"/>
                     <Column editable="true" title="Last Name" type="java.lang.Object"/>
                     <Column editable="true" title="First Name" type="java.lang.Object"/>

@@ -67,8 +67,9 @@ public class ReservationDAO {
             ps.setString(3, r.getGuestNumber());
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
-            ps.setString(6, r.getPrice());
-            ps.setString(7, r.getStatus());
+//          ps.setString(6, r.getPrice());
+            ps.setString(6, "85.00");
+            ps.setString(7, "0");
             ps.executeQuery();
             //user message
             showMessageDialog(null, "Reservation Created: " + r.getResNo(), "Record Added", JOptionPane.INFORMATION_MESSAGE);
@@ -268,13 +269,13 @@ public class ReservationDAO {
             );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
-//            ps.setString(1, 4);//test value
+            //ps.setString(1, 4);//test value
             ps.setString(2, r.getResNo());
             ps.setString(3, r.getRoomNumber());
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
             ps.setString(6, r.getGuestNumber());
-          // ps.setString(6, "1001");//test item
+           //ps.setString(6, "1001");//test item
             ps.setString(7, g.getFirstName());
             ps.setString(8, g.getLastName());
             //execute command to the database

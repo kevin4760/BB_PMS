@@ -43,7 +43,7 @@ public class ReservationPage extends javax.swing.JFrame {
     private Date date1,date2;
     private final String[] rooms;
     private DBConnection conn;
-    private ArrayList<ArrayList<String>> results;
+    private final ArrayList<ArrayList<String>> results;
     private ArrayList<String> name;
     private String[] names;
     
