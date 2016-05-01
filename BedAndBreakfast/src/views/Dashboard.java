@@ -98,12 +98,12 @@ public class Dashboard extends javax.swing.JFrame {
 
         results = conn.getresults("SELECT to_char(business_date + 1, 'DD-MON-YY') FROM business_dates WHERE rownum = 1 ORDER BY business_date DESC",1);
         businessDate = results.get(0);
-        setTitle(hotel.getHotelName() + " " + businessDate);
+        setTitle(hotel.getHotelName() + "/Application Date: " + businessDate);
         //checks the number of guest checked in
         results = conn.getresults("SELECT count(*) FROM reservations " +
                 "WHERE in_date <= '" + businessDate + "' AND out_date >='" + businessDate +
-                "' AND status IN ('0','1','2')", 1);
-        int numberOfGuests = results.size();
+                "' AND status IN ('0','1')", 1);
+        int numberOfGuests = Integer.parseInt(results.get(0));
         numberGuest.setText("" + numberOfGuests);        
 
         //checks occupied and unoccupied rooms
@@ -553,8 +553,11 @@ public class Dashboard extends javax.swing.JFrame {
     private void nightAuditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nightAuditActionPerformed
         // TODO add your handling code here:
         CallableStatement stmt;
-        int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to"
-                + " run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
+        String newBusinessDate;
+        results = conn.getresults("SELECT to_char(business_date + 2, 'DD-MON-YY') FROM business_dates WHERE rownum = 1 ORDER BY business_date DESC",1);
+        newBusinessDate = results.get(0);
+        int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to roll the date from "
+                + businessDate + " to " + newBusinessDate + "?", "Night Audit",JOptionPane.YES_NO_OPTION);
         
         if (n == JOptionPane.YES_OPTION){
             //Run Night Audit Statement
