@@ -8,8 +8,7 @@ package DBCommands;
 import classes.ErrorHandling;
 import java.util.*;
 import java.sql.*;
-import javax.swing.*;
-import static javax.swing.JOptionPane.showMessageDialog;
+
 
 /**
  * DBConnection.java

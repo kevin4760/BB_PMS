@@ -5,8 +5,7 @@
  */
 package DBCommands;
 
-import classes.ErrorHandling;
-import classes.Room;
+import classes.*;
 import java.sql.*;
 import java.util.*;
 /**
