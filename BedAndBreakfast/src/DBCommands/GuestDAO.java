@@ -68,7 +68,7 @@ public class GuestDAO {
             gc.getConn().close();
         }
         catch(SQLException ex){
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }
 
@@ -105,7 +105,7 @@ public class GuestDAO {
         }
         catch(SQLException ex){
             System.out.println("whoops"); //replace with a real exception
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
         //Returns the List
         return guestList;       
@@ -125,7 +125,8 @@ public class GuestDAO {
         try{
             //Updates information into guests data table
             ps=gc.getConn()
-                    .prepareStatement("UPDATE guests SET last_name=?, first_name=?, title=? WHERE guest_no=?");
+                    .prepareStatement("UPDATE guests SET last_name=?, "
+                            + "first_name=?, title=? WHERE guest_no=?");
             ps.setString(1, guest.getLastName());
             ps.setString(2, guest.getFirstName());
             ps.setString(3, guest.getTitle());
@@ -134,7 +135,8 @@ public class GuestDAO {
             
             //Updates information into addresses table
             ps=gc.getConn()
-                    .prepareStatement("UPDATE addresses SET street=?, city=?, state=?, zip=? WHERE guest_no=?");
+                    .prepareStatement("UPDATE addresses SET street=?, city=?,"
+                            + " state=?, zip=? WHERE guest_no=?");
             ps.setString(1, guest.getStreet());
             ps.setString(2, guest.getCity());
             ps.setString(3, guest.getState());
@@ -143,12 +145,13 @@ public class GuestDAO {
             ps.executeQuery();
 
             //Conformation Message
-            showMessageDialog(null, "Guest " + guest.getLastName()+ " " + guest.getFirstName() + "has been updated");
+            showMessageDialog(null, "Guest " + guest.getLastName()+ " " 
+                    + guest.getFirstName() + "has been updated");
             //Close DB Connection
             gc.getConn().close();
         }
         catch(SQLException ex){
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }
     

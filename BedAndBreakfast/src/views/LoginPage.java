@@ -5,12 +5,11 @@
  */
 package views;
 
-import DBCommands.DBConnection;
-import java.awt.event.KeyEvent;
-import java.sql.SQLException;
+//Java Imports
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.*;
 import static javax.swing.JOptionPane.showMessageDialog;
+
+//Custom Imports
 import DBCommands.EmployeeDAO;
 import classes.Employee;
 import classes.Hotel;
@@ -21,9 +20,11 @@ import classes.Hotel;
  */
 public class LoginPage extends javax.swing.JFrame {
     
+    //Global Variable Declaration
     EmployeeDAO empDAO = new EmployeeDAO();
     Employee emp = new Employee();
     Hotel hotel = new Hotel("001", "Mancavia");
+    
     /**
      * Creates new form Login
      */
@@ -144,17 +145,18 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterActionPerformed
+        
         // validates username and password moves to reservation screen
-//        DBConnection gc = new DBConnection();
-//        gc.getDBConnection();
         emp.setUserName(username.getText().toUpperCase());
         emp.setPassword(new String(password.getPassword()));
         if(empDAO.validateUser(emp)){
             Dashboard dashboard = new Dashboard(emp, hotel);
             dashboard.setVisible(rootPaneCheckingEnabled);
             this.dispose();
-        } else{
-            showMessageDialog(null, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            showMessageDialog(null, "Invalid Username or Password", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_enterActionPerformed
 

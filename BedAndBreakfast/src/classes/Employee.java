@@ -19,16 +19,21 @@ public class Employee {
     private String password;
     private String hotelID;
     
-    //constructors
+    //Default Constructors
     public Employee() {
         //empty
     }
     
+    //Default Constructor
     public Employee(Employee employee) {
-        
+        //Empty
     }
     
-    public Employee(String firstName, String lastName, String employeeID, String userName, String password) {
+    //Constructor
+    public Employee(String firstName, String lastName, String employeeID, 
+            String userName, String password) {
+        
+        //Set Employee Features
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeID = employeeID;

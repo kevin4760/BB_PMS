@@ -5,14 +5,10 @@
  */
 package views;
 
-import DBCommands.ReservationDAO;
-import classes.ErrorHandling;
-import classes.Guest;
-import classes.Reservation;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import DBCommands.*;
+import classes.*;
+import java.text.*;
+import java.util.*;
 
 
 /**
@@ -23,6 +19,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         Reservation rs;
         ReservationDAO rc;
         private Date date1, date2;
+        String guestArray[][];
 
     /**
      * Creates new form ReservationSearchModule
@@ -31,6 +28,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         initComponents();
         rs = new Reservation();
         rc = new ReservationDAO();
+        refreshRooms();
     }
 
     /**
@@ -49,13 +47,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabeLCheckOutDate = new javax.swing.JLabel();
         jLabelRmNo = new javax.swing.JLabel();
         jLabelResvNo = new javax.swing.JLabel();
-        jComboBoxRoomNumber = new javax.swing.JComboBox<String>();
+        jComboBoxRoomNumber = new javax.swing.JComboBox<>();
         jCalendarComboBoxCheckInDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jCalendarComboBoxCheckOutDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jLabelReservationNumber = new javax.swing.JLabel();
         jTextFieldReservationNumber = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
-        jComboBoxReservationStatus = new javax.swing.JComboBox<String>();
+        jComboBoxReservationStatus = new javax.swing.JComboBox<>();
         jTextFieldGuestNumber = new javax.swing.JTextField();
         jLabelGuestNumber = new javax.swing.JLabel();
         jTextFieldFirstName = new javax.swing.JTextField();
@@ -92,6 +90,9 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabelResvNo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResvNo.setText("Reservation Search Fields");
 
+        jComboBoxRoomNumber.setEditable(true);
+        jComboBoxRoomNumber.setToolTipText("");
+
         jLabelReservationNumber.setText("Reservation Number");
 
         jTextFieldReservationNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +103,7 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         jLabelStatus.setText("Status");
 
-        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
+        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
 
         jTextFieldGuestNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -372,13 +373,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
         int rowNumber;
         String resNumber;
-        rowNumber=jTableReservationList.getSelectedRow();      
+        rowNumber=jTableReservationList.getSelectedRow();
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
-        rc.checkInReservation(rs);        
-        jTableReservationList.setValueAt("1", rowNumber, 5);
+        rc.checkInReservation(rs);
+        jTableReservationList.setValueAt("Checked In", rowNumber, 5);
         repaint();
-        revalidate();        
+        revalidate();
     }//GEN-LAST:event_jButtonCheckInActionPerformed
 
     private void jTextFieldReservationNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldReservationNumberActionPerformed
@@ -392,27 +393,27 @@ public class ReservationManagement extends javax.swing.JFrame {
         date1 = jCalendarComboBoxCheckInDate.getDate();
         date2 = jCalendarComboBoxCheckOutDate.getDate();
         DateFormat dataBaseFormat=new SimpleDateFormat("dd-MMM-yy");
-        String inDate=dataBaseFormat.format(date1);      
+        String inDate=dataBaseFormat.format(date1);
         String outDate=dataBaseFormat.format(date2);
 
         Reservation res = new Reservation();
         Guest gst = new Guest();
         res.setCheckIn(inDate);
-        res.setCheckOut(outDate);      
-        
-        
+        res.setCheckOut(outDate);
+
+
         String guest_no = jTextFieldGuestNumber.getText();
         if (guest_no==null) {
             guest_no="";
-        }        
+        }
         res.setGuestNumber(guest_no);
-        
+
         String resNo = jTextFieldReservationNumber.getText();
         if (resNo == null){
             resNo="";
         }
         res.setResNo(resNo);
-        
+
         String rmNo;
         Object rmObject = jComboBoxRoomNumber.getSelectedItem();
         if (rmObject == null){
@@ -421,66 +422,113 @@ public class ReservationManagement extends javax.swing.JFrame {
             rmNo = String.valueOf(rmObject);
         }
         res.setRoomNumber(rmNo);
-        
+
         //this may still be broke right here
         String status;
-        Object statusObject = jComboBoxReservationStatus.getSelectedItem();
-        if (statusObject == null){
-            res.setStatus("0");
-        } else {
-            status = String.valueOf(statusObject);            
-            res.setStatus((status));
-        }        
+        status = "" + jComboBoxReservationStatus.getSelectedIndex();
+        res.setStatus(status);
         
         String lastName = jTextFieldLastName.getText();
         if (lastName == null){
             lastName = "";
         }
         gst.setLastName(lastName);
-        
+
         String firstName = jTextFieldFirstName.getText();
         if (firstName == null) {
             firstName = "";
         }
         gst.setFirstName(firstName);
-       
-        String guestArray[][]=rc.searchReservation(res, gst);                 
+        
+        javax.swing.table.DefaultTableModel tableModel = new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Res Number", "Last Name", "First Name", "Check In Date", "Check Out Date", "Status", "Room Number"
+            });
+        guestArray=rc.searchReservation(res, gst);
+        int reservationsReturned = guestArray.length;
+        if (reservationsReturned <=0){
+            tableModel.setRowCount(25);
+        }else {
+            tableModel.setRowCount(guestArray.length);
+        }
+        jTableReservationList.setModel(tableModel);
+//        jTableReservationList.validate();
+//        jScrollPane1.setViewportView(jTableReservationList);
         for(int i=0; i<guestArray.length; i++){
-            for(int column=0; column<7;column++){                
+            for(int column=0; column<7;column++){
                jTableReservationList.setValueAt(guestArray[i][column], i, column);
             }
-           
+
         }
     }//GEN-LAST:event_jButtonSearchActionPerformed
-
+    private void refreshRooms(){
+        RoomDAO rmDAO = new RoomDAO();
+        Room[] rooms = rmDAO.getRooms();
+        String[] roomsString = new String[rooms.length];
+        for (int i=0; i <rooms.length; i++){
+            roomsString[i] = rooms[i].getRmNO();
+        }
+        jComboBoxRoomNumber.removeAllItems();
+        for (Room j : rooms){
+            jComboBoxRoomNumber.addItem(j.getRmNO());
+        }
+    }
+    
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
         int rowNumber;
         String resNumber;
-        rowNumber=jTableReservationList.getSelectedRow();      
+        rowNumber=jTableReservationList.getSelectedRow();
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
-        rc.checkOutReservation(rs);        
-        jTableReservationList.setValueAt("2", rowNumber, 5);
+        rc.checkOutReservation(rs);
+        jTableReservationList.setValueAt("Checked Out", rowNumber, 5);
         repaint();
-        revalidate();  
+        revalidate();
     }//GEN-LAST:event_jButtonCheckOutActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         // TODO add your handling code here:
         int rowNumber;
         String resNumber;
-        rowNumber=jTableReservationList.getSelectedRow();      
+        rowNumber=jTableReservationList.getSelectedRow();
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
-        rc.cancelReservation(rs);        
-        jTableReservationList.setValueAt("3", rowNumber, 5);
+        rc.cancelReservation(rs);
+        jTableReservationList.setValueAt("Cancelled", rowNumber, 5);
         repaint();
-        revalidate();  
+        revalidate();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-       
+
     }//GEN-LAST:event_jButtonClearActionPerformed
 
     /**
@@ -490,7 +538,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -551,9 +599,9 @@ public class ReservationManagement extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldReservationNumber;
     // End of variables declaration//GEN-END:variables
     //create dates for checkin and checkout
-    private void getNewDate(){       
+    private void getNewDate(){
     //Formating Date to mmm-dd-yyyy
-     DateFormat format1=SimpleDateFormat.getDateInstance();     
+     DateFormat format1=SimpleDateFormat.getDateInstance();
 
     //Try Catch for Date Comparision
         try{
@@ -562,10 +610,10 @@ public class ReservationManagement extends javax.swing.JFrame {
                     .getTime()));
             date2 = format1.parse(format1.format(jCalendarComboBoxCheckOutDate.getCalendar()
                     .getTime()));
-        }        
+        }
         catch(ParseException ex){
             //Temp Error Message
             ex.printStackTrace();
-        }  
+        }
     }//end getNewDate()
 }

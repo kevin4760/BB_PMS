@@ -12,12 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+
 //custom imports
 import classes.Reservation;
 import DBCommands.ReservationDAO;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import DBCommands.GuestDAO;
 import classes.ErrorHandling;
 import classes.Guest;
@@ -43,11 +42,7 @@ public class ReservationPage extends javax.swing.JFrame {
     private Date date1,date2;
     private final String[] rooms;
     private DBConnection conn;
-    private final ArrayList<ArrayList<String>> results;
-    private ArrayList<String> name;
-    private String[] names;
-    
-    
+    private final ArrayList<ArrayList<String>> results;    
     
     public ReservationPage() {
         initComponents();
@@ -55,18 +50,19 @@ public class ReservationPage extends javax.swing.JFrame {
         conn = new DBConnection();
         try {
             conn.getDBConnection();
-        } catch (SQLException ex){
+        } 
+        catch (SQLException ex){
             ErrorHandling.displayException(ex);
-//            return;
         }
         
         results = conn.getresults("select rm_no from rooms order by"
                 + " use_count asc");
         rooms = new String[results.size()];
+        
         for (int i = 0; i < results.size(); i++){
-            rooms[i] = results.get(i).get(0);            
-//            roomsAvailCmbx.addItem(rooms[i]); 
+            rooms[i] = results.get(i).get(0); 
         }  
+        
         for (String j : rooms){
             roomsAvail.addItem(j);
         }
@@ -96,7 +92,6 @@ public class ReservationPage extends javax.swing.JFrame {
         clearButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         bookButton = new javax.swing.JButton();
-        searchButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         firstName = new javax.swing.JTextField();
         lastName = new javax.swing.JTextField();
@@ -259,14 +254,6 @@ public class ReservationPage extends javax.swing.JFrame {
             }
         });
 
-        searchButton.setText("Search");
-        searchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -277,8 +264,6 @@ public class ReservationPage extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -287,8 +272,7 @@ public class ReservationPage extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -556,32 +540,7 @@ public class ReservationPage extends javax.swing.JFrame {
        
     }//GEN-LAST:event_exitButtonActionPerformed
 
-    //Action Searchs for Guest by lastName only at this point.
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        /*
-         * Possible options if we do not like the current search and want to 
-         * centralized it to one interface.
-         * opens search screen
-         * new GuestSearchModule().setVisible(rootPaneCheckingEnabled);
-        */
-        
-//commented out will use guest search from guestDAO that aaron makes
-//        conn = new DBConnection();
-//        conn.getDBConnection();
-//        
-//        try{
-//            name=conn.searchGuests(lastName.getText());
-//            names=new String[name.size()];        
-//            for (int i = 0; i < name.size(); i++){
-//                names[i] = name.get(i);            
-//                searchResults.addItem(names[i]);         
-//            }  
-//        }
-//        catch(IllegalArgumentException ex){
-//            searchResults.addItem("Not Found");
-//        }
-    }//GEN-LAST:event_searchButtonActionPerformed
-
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         new Dashboard().setVisible(rootPaneCheckingEnabled);
@@ -600,55 +559,22 @@ public class ReservationPage extends javax.swing.JFrame {
         getNewDate();
         //set reservation obj: resNo, room no, guest no, in, out
         try {
-//            res.setResNo(conn.uniqueID("reservations", "1"));//reservation number
             res.setRoomNumber(room);
             res.setGuestNumber(guestNumber.getText());
-            //        //Formats date for database
+            
+           //Formats date for database
             DateFormat dataBaseFormat=new SimpleDateFormat("dd-MMM-yy");
             String inDate=dataBaseFormat.format(date1);      
             String outDate=dataBaseFormat.format(date2);
             res.setCheckIn(inDate);
             res.setCheckOut(outDate);
+            
             //call DAO and insert reservation
             rDAO.insertReservation(res);
-        } catch (Exception ex) {
-        System.out.println("whoops");
-        Logger.getLogger(ReservationPage.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
-        
-        
-//commented out and used above method
-//        //Get Connection to Database Block       
-//        conn = new DBConnection();
-//        conn.getDBConnection();    
-//        try{
-//        //Coverts Selected Index into String       
-//        String title =String.valueOf(Title.getSelectedIndex());
-//       
-//        //Write Guest Information to the Database
-//        conn.setGuestInfo(GuestNumber.getText(), FirstName.getText(),
-//                lastName.getText(),title);
-//        
-//        //Converts Selected Index into String
-//        String state =String.valueOf(State.getSelectedIndex());
-//        conn.setGuestAddress(GuestNumber.getText(), Street.getText(), 
-//                City.getText(),state, ZipCode.getText()); 
-//        
-//        //Gets date set by user
-//        getNewDate();  
-//        //Formats date for database
-//        DateFormat dataBaseFormat=new SimpleDateFormat("dd-MMM-yy");
-//        String inDate=dataBaseFormat.format(date1);      
-//        String outDate=dataBaseFormat.format(date2);
-//        String roomSelected=(String) roomsAvailCmbx
-//                .getItemAt(roomsAvailCmbx.getSelectedIndex());        
-//        conn.setReservation(conn.uniqueID("reservations", "1"), roomSelected, conn.uniqueID("guests", "1"), inDate, outDate, 3.14);
-//        }catch(Exception ex){
-//            
-//        }
-//
-//              
+        } 
+        catch (Exception ex) {
+            ErrorHandling.displayException(ex);
+        }              
     }//GEN-LAST:event_bookButtonActionPerformed
 
     private void cityActionPerformed(java.awt.event.ActionEvent evt) {                                     
@@ -673,7 +599,7 @@ public class ReservationPage extends javax.swing.JFrame {
             }
         }
         catch(IllegalArgumentException ex){
-            searchResults.addItem("Not Found");
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_searchButton1ActionPerformed
 
@@ -688,9 +614,11 @@ public class ReservationPage extends javax.swing.JFrame {
                 stringTitle, street.getText(), city.getText(),
                 stringState, zipCode.getText());
             gDAO.updateGuest(guest);
+            this.validate();
+            this.repaint();
         }
         catch(Exception ex){
-            System.out.println("Not Going IN"+ex);//Temp message
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -707,7 +635,7 @@ public class ReservationPage extends javax.swing.JFrame {
             gDAO.insertGuest(bobby);
         }
         catch(Exception ex){
-            System.out.println("Not Going IN"+ex);//Temp message
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_createGuestActionPerformed
 
@@ -732,13 +660,10 @@ public class ReservationPage extends javax.swing.JFrame {
         lastName.setText(null);
         street.setText(null);
         city.setText(null);
-        zipCode.setText(null);
-        //        numOfNights.setText(null); //removed reservation from form
+        zipCode.setText(null);        
         guestNumber.setText(null);
         title.setSelectedIndex(0);
-        state.setSelectedIndex(0);
-        //        checkInDate.setText(null);//removed reservation from form
-        //        checkOutDate.setText(null);//removed reservation from form
+        state.setSelectedIndex(0);      
     }//GEN-LAST:event_clearButton1ActionPerformed
 
     
@@ -820,7 +745,6 @@ public class ReservationPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField lastName;
     private javax.swing.JComboBox<String> roomsAvail;
-    private javax.swing.JButton searchButton;
     private javax.swing.JButton searchButton1;
     private javax.swing.JComboBox<String> searchResults;
     private javax.swing.JComboBox state;
@@ -884,7 +808,7 @@ public class ReservationPage extends javax.swing.JFrame {
         }        
         catch(ParseException ex){
             //Temp Error Message
-            ex.printStackTrace();
+            ErrorHandling.displayException(ex);
         }  
     }//end getNewDate()
 }//end Class ReservationPage

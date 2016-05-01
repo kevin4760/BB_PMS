@@ -5,10 +5,8 @@
  */
 package views;
 
-import DBCommands.DBConnection;
-import classes.ErrorHandling;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import classes.*;
+import DBCommands.*;
 
 /**
  *
@@ -16,52 +14,17 @@ import java.util.ArrayList;
  * db linking Prasanna
  */
 public class RoomManagementModule extends javax.swing.JFrame {
-    private String[] rooms;
-    private DBConnection conn;
-    private ArrayList<ArrayList<String>> results;
+    private Room[] rooms;
+    private RoomDAO rmDAO;
     /**
      * Creates new form RoomManagementModule
      */
     public RoomManagementModule() {
         initComponents();
-        conn = new DBConnection();
-        try {
-            conn.getDBConnection();
-        } catch (SQLException ex){
-            ErrorHandling.displayException(ex);
-            return;
-        }
-        results = conn.getresults("select rm_no,clean from rooms");
-        rooms = new String[results.size()];
-        for (int i = 0; i < results.size(); i++){
-            rooms[i] = results.get(i).get(0);
-        }
-        jList1.setListData((String[])rooms);
-        jComboBoxRoomSelector.removeAllItems();
-        for (String j : rooms){
-            jComboBoxRoomSelector.addItem(j);
-        }
+        rmDAO = new RoomDAO();
+        refreshRooms();
     }
-    public RoomManagementModule(DBConnection conn) {
-        initComponents();
-        this.conn = conn;
-        try {
-            conn.getDBConnection();
-        } catch (SQLException ex){
-            ErrorHandling.displayException(ex);
-            return;
-        }
-        results = conn.getresults("select rm_no,clean from rooms");
-        rooms = new String[results.size()];
-        for (int i = 0; i < results.size(); i++){
-            rooms[i] = results.get(i).get(0);
-        }
-        jList1.setListData((String[])rooms);
-        jComboBoxRoomSelector.removeAllItems();
-        for (String j : rooms){
-               jComboBoxRoomSelector.addItem(j);
-        }
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,7 +42,7 @@ public class RoomManagementModule extends javax.swing.JFrame {
         jRadioButtonClean = new javax.swing.JRadioButton();
         jRadioButtonDirty = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jList1 = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -124,10 +87,10 @@ public class RoomManagementModule extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -336,8 +299,7 @@ public class RoomManagementModule extends javax.swing.JFrame {
 
     private void jRadioButtonDirtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonDirtyActionPerformed
         // TODO add your handling code here:
-        conn.runquery("update rooms set clean = 1 where rm_no = '"
-                + jList1.getSelectedValue().toString() + "'");
+        rmDAO.changeToDirty(rmDAO.searchRoom(jList1.getSelectedValue().toString()));
         refreshRooms();
     }//GEN-LAST:event_jRadioButtonDirtyActionPerformed
 
@@ -347,8 +309,7 @@ public class RoomManagementModule extends javax.swing.JFrame {
 
     private void jRadioButtonCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCleanActionPerformed
         // TODO add your handling code here:
-        conn.runquery("update rooms set clean = 0 where rm_no = '"
-                + jList1.getSelectedValue().toString() + "'");
+        rmDAO.changeToClean(rmDAO.searchRoom(jList1.getSelectedValue().toString()));
         refreshRooms();
     }//GEN-LAST:event_jRadioButtonCleanActionPerformed
 
@@ -357,45 +318,51 @@ public class RoomManagementModule extends javax.swing.JFrame {
         //Search array for the room
         if (jList1.getSelectedIndex() == -1)
             jList1.setSelectedIndex(0);
-        String selectedRoom = jList1.getSelectedValue().toString();
-        int index = 0;
-        while (index < rooms.length){
-            if (results.get(index).get(0).equals(selectedRoom)) break;
-            index++;
-        }
-        if (results.get(index).get(1).equals("0")){
+//        String selectedRoom = jList1.getSelectedValue().toString();
+//        int index = 0;
+//        while (index < rooms.length){
+//            if (results.get(index).get(0).equals(selectedRoom)) break;
+//            index++;
+//        }
+//        if (results.get(index).get(1).equals("0")){
+//            jRadioButtonClean.setSelected(true);
+//        } else {
+//            jRadioButtonDirty.setSelected(true);
+//        }
+        Room selectedRoom = rmDAO.searchRoom(jList1.getSelectedValue());
+        if (selectedRoom.getClean() == 0){
             jRadioButtonClean.setSelected(true);
-        } else {
+        }
+        else {
             jRadioButtonDirty.setSelected(true);
         }
+        
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButtonAddRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddRoomActionPerformed
         // TODO add your handling code here:
-        int value = conn.runquery("insert into rooms "
-                + "(rm_no, hotel_id, use_count, beds, clean) VALUES "
-                + "('" + (String)jComboBoxRoomSelector.getSelectedItem() + "', '001', 0, 2, 1)");
+        Room rm1 = new Room (jComboBoxRoomSelector.getSelectedItem().toString(), 0.0);
+        int value = rmDAO.addRoom(rm1);
         if (value > 0) refreshRooms();
     }//GEN-LAST:event_jButtonAddRoomActionPerformed
 
     private void jButtonRemoveRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveRoomActionPerformed
         // TODO add your handling code here:
-        int value = conn.runquery("delete from rooms where rm_no='" +
-                (String)jComboBoxRoomSelector.getSelectedItem()+"'");
+        Room rm1 = rmDAO.searchRoom(jComboBoxRoomSelector.getSelectedItem().toString());
+        int value = rmDAO.removeRoom(rm1);
         if (value > 0) refreshRooms();
     }//GEN-LAST:event_jButtonRemoveRoomActionPerformed
     private void refreshRooms(){
-        results = conn.getresults("select rm_no,clean from rooms");
-        rooms = new String[results.size()];
-        for (int i = 0; i < results.size(); i++){
-            rooms[i] = results.get(i).get(0);
+        rooms = rmDAO.getRooms();
+        String[] roomsString = new String[rooms.length];
+        for (int i=0; i <rooms.length; i++){
+            roomsString[i] = rooms[i].getRmNO();
         }
-        jList1.removeAll();
-        jList1.setListData((String[])rooms);
+        jList1.setListData(roomsString);
         jComboBoxRoomSelector.removeAllItems();
-        for (String j : rooms){
-            jComboBoxRoomSelector.addItem(j);
-        }
+        for (Room j : rooms){
+            jComboBoxRoomSelector.addItem(j.getRmNO());
+    }
     }
     /**
      * @param args the command line arguments
@@ -443,7 +410,7 @@ public class RoomManagementModule extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JList jList1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
