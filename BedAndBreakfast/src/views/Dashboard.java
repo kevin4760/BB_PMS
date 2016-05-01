@@ -34,7 +34,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     
     public Dashboard() {
-        initComponents();  //
+       initComponents();  //
         //
         conn = new DBConnection();
         try {
@@ -64,12 +64,13 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard(Employee emp, Hotel hotel) {
         this.emp = emp;
         this.hotel = hotel;
-        initComponents();  //
-        //
+        initComponents();  
+        
         conn = new DBConnection();
         try {
             conn.getDBConnection();
-        } catch (SQLException ex){
+        } 
+        catch (SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -77,9 +78,11 @@ public class Dashboard extends javax.swing.JFrame {
         //populate roomList
         results = conn.getresults("SELECT rm_no from rooms", 1);
         rooms = new String[results.size()];
+        
         for (int i = 0; i < results.size(); i++ ) {
             rooms[i] = results.get(i);
         }
+        
         roomList.setListData(rooms);
         //end roomList
         
@@ -517,6 +520,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void roomListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_roomListValueChanged
         String selectedRoom = roomList.getSelectedValue();
         roomStatus = conn.getRoomStatus("select clean from rooms where rm_no = '"+selectedRoom+"'");
+        
+        //Room Status Selection
         if(roomStatus == 0 ) {
             jRadioButtonClean.setSelected(true);
             jRadioButtonDirty.setSelected(false);
@@ -534,22 +539,26 @@ public class Dashboard extends javax.swing.JFrame {
     private void nightAuditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nightAuditActionPerformed
         // TODO add your handling code here:
         CallableStatement stmt;
-        int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, "Are you sure you want to"
+                + " run the night audit?", "Night Audit",JOptionPane.YES_NO_OPTION);
+        
         if (n == JOptionPane.YES_OPTION){
             //Run Night Audit Statement
             String sql="{? = call roll_date(?,?)}";
+            
             //Adds the Information to the Search ComboBox
             try{
                 stmt = conn.getConn().prepareCall(sql);
                 stmt.registerOutParameter(1, Types.INTEGER);                
                 stmt.setString(2, emp.getEmployeeID());
-                stmt.setString(3, hotel.getHotelID());
-                //System.out.println(emp.getEmployeeID() + hotel.getHotelID());
+                stmt.setString(3, hotel.getHotelID());                
                 stmt.executeQuery();
                 if (stmt.getInt(1)==0){
-                    JOptionPane.showMessageDialog(null, "Night Audit ran successfully","Night Audit", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Night Audit ran "
+                            + "successfully","Night Audit", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } catch (SQLException ex){
+            } 
+            catch (SQLException ex){
                 ErrorHandling.displayException(ex);
             }
         }

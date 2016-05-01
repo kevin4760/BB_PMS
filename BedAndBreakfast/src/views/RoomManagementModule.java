@@ -365,7 +365,8 @@ public class RoomManagementModule extends javax.swing.JFrame {
         }
         if (results.get(index).get(1).equals("0")){
             jRadioButtonClean.setSelected(true);
-        } else {
+        }
+        else {
             jRadioButtonDirty.setSelected(true);
         }
     }//GEN-LAST:event_jList1ValueChanged

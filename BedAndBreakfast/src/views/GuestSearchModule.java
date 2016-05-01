@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class GuestSearchModule extends javax.swing.JFrame {
   
+    //Global Variable Declaration
     private final GuestDAO gDAO;
     private Guest guest;
     private ArrayList<Guest> guestList;
@@ -209,12 +210,13 @@ public class GuestSearchModule extends javax.swing.JFrame {
                     .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(state, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(zipCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9)))
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(state, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)))
                 .addGap(95, 95, 95))
         );
 
@@ -318,7 +320,7 @@ public class GuestSearchModule extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addContainerGap())
         );
 
         pack();
@@ -331,6 +333,7 @@ public class GuestSearchModule extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         //setup removes all previous items and clears ArrayList
         searchResults.removeAllItems();
+        
         if(guestList.isEmpty()==false){
             guestList.clear();
         }
@@ -338,6 +341,7 @@ public class GuestSearchModule extends javax.swing.JFrame {
         //send all searchable values to search method, returns an array
         guestList = gDAO.searchGuest(firstName.getText(), lastName.getText()
                 ,guestNumber.getText(),street.getText(),zipCode.getText());
+        
         //iterate through search results and add to drop down
         try{
             for (int i = 0; i < guestList.size(); i++){
@@ -346,7 +350,7 @@ public class GuestSearchModule extends javax.swing.JFrame {
             }  
         }
         catch(IllegalArgumentException ex){
-            searchResults.addItem("Not Found");
+            searchResults.addItem("Not Found"+ex);
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -357,12 +361,9 @@ public class GuestSearchModule extends javax.swing.JFrame {
         street.setText(null);
         city.setText(null);
         zipCode.setText(null);
-//        numOfNights.setText(null); //removed reservation from form
         guestNumber.setText(null);
         title.setSelectedIndex(0);        
         state.setSelectedIndex(0);
-//        checkInDate.setText(null);//removed reservation from form
-//        checkOutDate.setText(null);//removed reservation from form
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void createGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createGuestActionPerformed

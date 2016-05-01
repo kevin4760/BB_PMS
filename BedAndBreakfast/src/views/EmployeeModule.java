@@ -326,7 +326,9 @@ public class EmployeeModule extends javax.swing.JFrame {
             empList.clear();
         }
         //send all searchable values to search method, returns an array
-        empList = eDAO.searchEmp(first.getText(), last.getText(), id.getText(), username.getText(), hotelid.getText());
+        empList = eDAO.searchEmp(first.getText(), last.getText(), 
+                id.getText(), username.getText(), hotelid.getText());
+       
         //iterate through search results and add to drop down
         try{
             for (int i = 0; i < empList.size(); i++){
@@ -335,13 +337,14 @@ public class EmployeeModule extends javax.swing.JFrame {
             }  
         }
         catch(IllegalArgumentException ex){
-            searchResults.addItem("Not Found");
+            searchResults.addItem("Not Found"+ex);
         }
     }//GEN-LAST:event_searchActionPerformed
 
     private void searchResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchResultsActionPerformed
         //get selected item from search list and sets the employee
         emp = empList.get(searchResults.getSelectedIndex());
+        
         //display information to form
         first.setText(emp.getFirstName());
         last.setText(emp.getLastName());
@@ -449,12 +452,13 @@ public class EmployeeModule extends javax.swing.JFrame {
         id.setText(null);
         hotelid.setText(null);
         username.setText(null);
-        password.setText(null);
+        password.setText(null);       
         if(empList.isEmpty()==false){
             empList.clear();
-        }
+        }        
         searchResults.removeAllItems();
-        } catch(Exception ex) {
+        } 
+        catch(Exception ex) {
             Logger.getLogger(EmployeeModule.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
