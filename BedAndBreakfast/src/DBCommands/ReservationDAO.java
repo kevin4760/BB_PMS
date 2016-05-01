@@ -328,7 +328,25 @@ public class ReservationDAO {
                     rowInfo[i][2] = rs.getString(3);
                     rowInfo[i][3] = rs.getString(4).split(" ")[0];
                     rowInfo[i][4] = rs.getString(5).split(" ")[0];
-                    rowInfo[i][5] = rs.getString(6);
+                    switch (rs.getString(6)){
+                        case "0":
+                            rowInfo[i][5] = "Reserved";
+                            break;
+                        case "1":
+                            rowInfo[i][5] = "Checked In";
+                            break;
+                        case "2":
+                            rowInfo[i][5] = "Checked Out";
+                            break;
+                        case "3":
+                            rowInfo[i][5] = "Cancelled";
+                            break;
+                        case "4":
+                            rowInfo[i][5] = "No Show";
+                            break;
+                        default:
+                            rowInfo[i][5] = "Reserved";
+                    }
                     rowInfo[i][6] = rs.getString(7);               
                     i++;               
                 }//end while
