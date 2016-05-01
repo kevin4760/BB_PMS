@@ -90,6 +90,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabelResvNo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResvNo.setText("Reservation Search Fields");
 
+        jComboBoxRoomNumber.setEditable(true);
         jComboBoxRoomNumber.setToolTipText("");
 
         jLabelReservationNumber.setText("Reservation Number");
@@ -376,7 +377,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
         rc.checkInReservation(rs);
-        jTableReservationList.setValueAt("1", rowNumber, 5);
+        jTableReservationList.setValueAt("Checked In", rowNumber, 5);
         repaint();
         revalidate();
     }//GEN-LAST:event_jButtonCheckInActionPerformed
@@ -508,7 +509,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
         rc.checkOutReservation(rs);
-        jTableReservationList.setValueAt("2", rowNumber, 5);
+        jTableReservationList.setValueAt("Checked Out", rowNumber, 5);
         repaint();
         revalidate();
     }//GEN-LAST:event_jButtonCheckOutActionPerformed
@@ -521,7 +522,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         resNumber=jTableReservationList.getValueAt(rowNumber, 0).toString();
         rs.setResNo(resNumber);
         rc.cancelReservation(rs);
-        jTableReservationList.setValueAt("3", rowNumber, 5);
+        jTableReservationList.setValueAt("Cancelled", rowNumber, 5);
         repaint();
         revalidate();
     }//GEN-LAST:event_jButtonCancelActionPerformed

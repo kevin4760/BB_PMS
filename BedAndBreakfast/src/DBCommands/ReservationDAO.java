@@ -233,6 +233,26 @@ public class ReservationDAO {
                 " OR (g.first_name=?)" +
                 " OR (g.last_name=?))"
             );//end ps
+//            String query = "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
+//                " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+//                " AND ((r.status = ?) ";
+//            
+//            if (r.getResNo() != null) {
+//                query = query + " AND (r.res_no = ?)";
+//            } else if (r.getRoomNumber() != null) 
+//                query = query + " AND (r.rm_no = ?)";
+//            }
+////            ps = gc.getConn().prepareStatement(
+//                "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
+//                " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+//                " AND ((r.status = ?) "+ //reservation status must be set
+//                " AND ((r.res_no = ?)" +
+//                " AND ((r.rm_no = ?)" +
+//                " AND ((r.in_date >= ? AND r.out_date <=?)" +
+//                " AND ((g.guest_no = ?)" +
+//                " AND ((g.first_name=?)" +
+//                " AND (g.last_name=?)))))))"
+//            );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
             //ps.setString(1, 4);//test value
@@ -270,6 +290,17 @@ public class ReservationDAO {
                 " OR (g.first_name=?)" +
                 " OR (g.last_name=?))"                    
             );//end ps
+//            ps = gc.getConn().prepareStatement(
+//                "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
+//                " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
+//                " AND ((r.status = ?) "+ //reservation status must be set
+//                " AND ((r.res_no = ?)" +
+//                " AND ((r.rm_no = ?)" +
+//                " AND ((r.in_date >= ? AND r.out_date <=?)" +
+//                " AND ((g.guest_no = ?)" +
+//                " AND ((g.first_name=?)" +
+//                " AND (g.last_name=?)))))))"
+//            );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
             ps.setString(2, r.getResNo());
