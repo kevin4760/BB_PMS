@@ -5,15 +5,10 @@
  */
 package views;
 
-import DBCommands.ReservationDAO;
-import classes.ErrorHandling;
-import classes.Guest;
-import classes.Reservation;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
+import DBCommands.*;
+import classes.*;
+import java.text.*;
+import java.util.*;
 
 
 /**
@@ -33,6 +28,7 @@ public class ReservationManagement extends javax.swing.JFrame {
         initComponents();
         rs = new Reservation();
         rc = new ReservationDAO();
+        refreshRooms();
     }
 
     /**
@@ -51,13 +47,13 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabeLCheckOutDate = new javax.swing.JLabel();
         jLabelRmNo = new javax.swing.JLabel();
         jLabelResvNo = new javax.swing.JLabel();
-        jComboBoxRoomNumber = new javax.swing.JComboBox<String>();
+        jComboBoxRoomNumber = new javax.swing.JComboBox<>();
         jCalendarComboBoxCheckInDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jCalendarComboBoxCheckOutDate = new de.wannawork.jcalendar.JCalendarComboBox();
         jLabelReservationNumber = new javax.swing.JLabel();
         jTextFieldReservationNumber = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
-        jComboBoxReservationStatus = new javax.swing.JComboBox<String>();
+        jComboBoxReservationStatus = new javax.swing.JComboBox<>();
         jTextFieldGuestNumber = new javax.swing.JTextField();
         jLabelGuestNumber = new javax.swing.JLabel();
         jTextFieldFirstName = new javax.swing.JTextField();
@@ -94,6 +90,8 @@ public class ReservationManagement extends javax.swing.JFrame {
         jLabelResvNo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResvNo.setText("Reservation Search Fields");
 
+        jComboBoxRoomNumber.setToolTipText("");
+
         jLabelReservationNumber.setText("Reservation Number");
 
         jTextFieldReservationNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +102,7 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         jLabelStatus.setText("Status");
 
-        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
+        jComboBoxReservationStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserved", "Checked In", "Checked Out", "Cancel", "No Show" }));
 
         jTextFieldGuestNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,14 +424,9 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         //this may still be broke right here
         String status;
-        Object statusObject = jComboBoxReservationStatus.getSelectedIndex();
-//        if (statusObject == null){
-//            res.setStatus("0");
-//        } else {
-//            status = statusObject.toString();
-            res.setStatus((statusObject.toString()));
-//        }
-        System.out.println(statusObject);
+        status = "" + jComboBoxReservationStatus.getSelectedIndex();
+        res.setStatus(status);
+        
         String lastName = jTextFieldLastName.getText();
         if (lastName == null){
             lastName = "";
@@ -494,7 +487,19 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButtonSearchActionPerformed
-
+    private void refreshRooms(){
+        RoomDAO rmDAO = new RoomDAO();
+        Room[] rooms = rmDAO.getRooms();
+        String[] roomsString = new String[rooms.length];
+        for (int i=0; i <rooms.length; i++){
+            roomsString[i] = rooms[i].getRmNO();
+        }
+        jComboBoxRoomNumber.removeAllItems();
+        for (Room j : rooms){
+            jComboBoxRoomNumber.addItem(j.getRmNO());
+        }
+    }
+    
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
         // TODO add your handling code here:
         int rowNumber;

@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
 import classes.Reservation;
 import DBCommands.ReservationDAO;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import DBCommands.GuestDAO;
 import classes.ErrorHandling;
 import classes.Guest;
@@ -575,8 +573,7 @@ public class ReservationPage extends javax.swing.JFrame {
             rDAO.insertReservation(res);
         } 
         catch (Exception ex) {
-            System.out.println("whoops");
-            Logger.getLogger(ReservationPage.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }              
     }//GEN-LAST:event_bookButtonActionPerformed
 
@@ -602,7 +599,7 @@ public class ReservationPage extends javax.swing.JFrame {
             }
         }
         catch(IllegalArgumentException ex){
-            searchResults.addItem("Not Found");
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_searchButton1ActionPerformed
 
@@ -621,7 +618,7 @@ public class ReservationPage extends javax.swing.JFrame {
             this.repaint();
         }
         catch(Exception ex){
-            System.out.println("Not Going IN"+ex);//Temp message
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -638,7 +635,7 @@ public class ReservationPage extends javax.swing.JFrame {
             gDAO.insertGuest(bobby);
         }
         catch(Exception ex){
-            System.out.println("Not Going IN"+ex);//Temp message
+            ErrorHandling.displayException(ex);
         }
     }//GEN-LAST:event_createGuestActionPerformed
 
@@ -811,7 +808,7 @@ public class ReservationPage extends javax.swing.JFrame {
         }        
         catch(ParseException ex){
             //Temp Error Message
-            ex.printStackTrace();
+            ErrorHandling.displayException(ex);
         }  
     }//end getNewDate()
 }//end Class ReservationPage
