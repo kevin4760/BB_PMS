@@ -351,7 +351,8 @@ public class RoomManagementModule extends javax.swing.JFrame {
         Room selectedRoom = rmDAO.searchRoom(jList1.getSelectedValue());
         if (selectedRoom.getClean() == 0){
             jRadioButtonClean.setSelected(true);
-        } else {
+        }
+        else {
             jRadioButtonDirty.setSelected(true);
         }
         

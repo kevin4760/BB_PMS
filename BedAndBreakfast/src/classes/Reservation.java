@@ -28,7 +28,8 @@ public class Reservation {
         //empty
     }
     //reservation for database insert //brand new reservations
-    public Reservation(String roomNumber, String guestNumber, String checkIn, String checkOut) {
+    public Reservation(String roomNumber, String guestNumber, 
+            String checkIn, String checkOut) {
         this.resNo = null;
         this.roomNumber  = roomNumber;
         this.guestNumber = guestNumber;
@@ -37,7 +38,8 @@ public class Reservation {
         this.price = "85.00";
         this.status = "0"; 
     }
-    public Reservation(String roomNumber, String guestNumber, String checkIn, String checkOut, String price, String status) {
+    public Reservation(String roomNumber, String guestNumber, String checkIn,
+            String checkOut, String price, String status) {
         this.resNo = null;
         this.roomNumber  = roomNumber;
         this.guestNumber = guestNumber;
@@ -47,7 +49,8 @@ public class Reservation {
         this.status = status; 
     }
     //constructor used to build Reservation for Reservation Management Module
-    public Reservation(String resNo, String room, String checkIn, String checkOut, String guestNo) {
+    public Reservation(String resNo, String room, String checkIn, 
+            String checkOut, String guestNo) {
         this.resNo = resNo;
         this.roomNumber = room;
         this.checkIn = checkIn;
