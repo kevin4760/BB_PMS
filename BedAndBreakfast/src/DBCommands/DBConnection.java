@@ -8,8 +8,6 @@ package DBCommands;
 import classes.ErrorHandling;
 import java.util.*;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -52,9 +50,6 @@ public class DBConnection{
         this.schema = "orcl";
         this.server = "bbpms.ddns.net";
         this.port = 1521;
-//        connectionProps = new Properties();
-//        connectionProps.put("user", username);
-//        connectionProps.put("password", password);
     }
     public DBConnection(int x){
         if(x == 5) {
@@ -107,115 +102,17 @@ public class DBConnection{
         //jdbc:oracle:thin:@server:port:schema        
         URL = "jdbc:oracle:thin:" + "@" + server + ":" + port +
                 ":" + schema;
-        //System.out.println(URL);
+        
         try {
-            this.conn = DriverManager.getConnection(URL, username, password);
-            //System.out.println("DB Connection Made");
-        } catch(SQLException ex) {
-//            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            this.conn = DriverManager.getConnection(URL, username, password);           
+        } 
+        catch(SQLException ex) {
             ErrorHandling.displayException(ex);
-            //System.out.println(ex.getMessage());
-            //showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            //System.out.println("did not connect to DB");
+         
         }     
     }
-    
-//    //method moved to employeeDAO, DELETE on clean up
-//    //method validateUser()
-//    public Boolean validateUser(String user, char[] input) {
-//        String pass = new String(input);
-//        Boolean access = false;
-//        try {
-//            String sql = "SELECT * FROM employees WHERE user_name='" + user + 
-//                "' and password='" + pass +"'";
-//            stmt = conn.createStatement();
-//            rs = stmt.executeQuery(sql);
-//            if(rs.next()){
-//                access = true;
-//                rs.close();
-//            } else 
-//                access = false;
-//            rs.close();
-//        } catch(SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return access;        
-//    }
-    //
-    
-    /* Commented out because guest DOA now covers this issue
-    //Set Guest Information Method
-    public void setGuestInfo(String guestNumber, String first, 
-            String last, String title){
-        
-        try{
-        String sql="INSERT INTO guests(GUEST_NO, FIRST_NAME, LAST_NAME, TITLE) "
-                + "Values('"+guestNumber+"','"+first+"','"+last+"','"+title+"')";
-        stmt=conn.createStatement(); 
-        stmt.executeUpdate(sql);
-        }   
-        catch(SQLException ex) {
-            System.out.println(ex);
-        }
-    }
-    
-    //Set Guest Address Method
-    public void setGuestAddress(String guestNumber, String street, String city, 
-            String state, String zipcode){
-        
-        try{
-            String sql="INSERT INTO addresses(GUEST_NO, STREET, CITY, STATE, ZIP) "+
-                    "Values('"+guestNumber+"','"+street+"','"+city+"','"+
-                    state+"','"+zipcode+"')";
-            stmt=conn.createStatement();
-            stmt.executeUpdate(sql);
-        }
-         catch(SQLException ex) {
-            System.out.println(ex);
-        }
-    }
 
-//    //commented out, create reservation in ReservationDAO class    
-//    //Set Reseration Method
-//    public void setReservation(String reservationNum, String roomNum, String guestNumber
-//    ,String inDate, String outDate, Double price){
-//        try{
-//            String sql="INSERT INTO reservations(RES_NO, RM_NO, GUEST_NO, "
-//                    + "IN_DATE, OUT_DATE, PRICE)Values('"+reservationNum+"','"
-//                    +roomNum+"','"+guestNumber+"','"+inDate+"','"+outDate+"','"
-//                    +price+"')";
-//            stmt=conn.createStatement();
-//            stmt.executeUpdate(sql);
-//        }
-//         catch(SQLException ex) {
-//            System.out.println(ex);
-//        }
-//    }
-    
-   
-    public ArrayList<String> searchGuests(String lastName, String firstName){
-        ArrayList<String> name =new ArrayList<>();       
-        try {
-            String sql = "SELECT * FROM guests WHERE (last_name='" + lastName +"') OR "+
-                    "(first_name = '"+firstName+"')";
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            while(rs.next()){  
-                name.add(lastName);              
-            } 
-            while(rs.next()){
-                name.add(firstName);
-            }
-            if(!rs.next()){
-                name.add("Not Found");
-            }
-        } catch(SQLException ex) {
-            System.out.println(ex);
-        }
-        return name;
-    }
-*/
-     //method returns one value from database
+    //method returns one value from database
     public int getRoomStatus(String query) {
         int roomStatus = 3; //3 will be invalid input
         try {
