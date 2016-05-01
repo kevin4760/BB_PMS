@@ -68,7 +68,7 @@ public class GuestDAO {
             gc.getConn().close();
         }
         catch(SQLException ex){
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }
 
@@ -105,7 +105,7 @@ public class GuestDAO {
         }
         catch(SQLException ex){
             System.out.println("whoops"); //replace with a real exception
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
         //Returns the List
         return guestList;       
@@ -148,7 +148,7 @@ public class GuestDAO {
             gc.getConn().close();
         }
         catch(SQLException ex){
-            Logger.getLogger(GuestDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }
     

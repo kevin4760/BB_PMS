@@ -68,7 +68,7 @@ public class EmployeeDAO {
             showMessageDialog(null, "Employee added: "+employee.getLastName()+", "+employee.getFirstName(),"Record Added", JOptionPane.INFORMATION_MESSAGE);
             gc.getConn().close();
         } catch(SQLException ex) {
-            
+            ErrorHandling.displayException(ex);
         }
     }
    
@@ -107,7 +107,7 @@ public class EmployeeDAO {
             }//end while
         } catch(SQLException ex) {
             //System.out.println("whoops"); //replace with a real exception
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
 //        //TESTING ITEM ITERATE THROUGH LIST
 //        for(int i=0; i<empList.size(); i++){
@@ -138,7 +138,7 @@ public class EmployeeDAO {
             gc.getConn().close();
             showMessageDialog(null, "Employee Updated: "+employee.getLastName()+", "+employee.getFirstName(),"Record Update", JOptionPane.INFORMATION_MESSAGE);
         } catch(SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }//end updateEmployee()
     
@@ -157,7 +157,7 @@ public class EmployeeDAO {
             gc.getConn().close();
             showMessageDialog(null, "Employee Record Deleted: "+ empID, "Record Deleted", JOptionPane.INFORMATION_MESSAGE);
         } catch(SQLException ex){
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);  
+            ErrorHandling.displayException(ex); 
         }
     }
     

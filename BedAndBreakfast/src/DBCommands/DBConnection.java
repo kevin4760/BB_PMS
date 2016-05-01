@@ -74,6 +74,7 @@ public class DBConnection{
             rs.close();
             conn.close();
         }catch (SQLException ex){
+            ErrorHandling.displayException(ex);
         }
     }
     //getters
@@ -224,7 +225,7 @@ public class DBConnection{
             rs.next();
             roomStatus = Integer.parseInt(rs.getString(1));
         } catch(SQLException ex) {
-            System.out.println(ex);
+            ErrorHandling.displayException(ex);
         }
         return roomStatus;
     }
@@ -244,7 +245,7 @@ public class DBConnection{
             stmt.close();
            
         } catch (SQLException ex) {
-            showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ErrorHandling.displayException(ex);
         }
         return records;
     }//getResults()
@@ -268,7 +269,7 @@ public class DBConnection{
             rs.close();
             stmt.close();            
         } catch (SQLException ex) {
-            showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ErrorHandling.displayException(ex);
         } 
         return records;
     }//getResults()
@@ -309,7 +310,7 @@ public class DBConnection{
                 uniqueID(table, column);
             } 
         } catch(SQLException ex) {
-            showMessageDialog(null, "Could not create ID", "Error", JOptionPane.ERROR_MESSAGE);
+            ErrorHandling.displayException(ex);
         }
         return newID.toString();
     }//end uniqueID

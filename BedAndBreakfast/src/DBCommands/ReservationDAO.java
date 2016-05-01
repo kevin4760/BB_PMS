@@ -76,7 +76,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
             //catch unique guest_no constraint and offers to create guest
             if(ex.getSQLState().startsWith("23")) {
                 int dialogResults = JOptionPane.showConfirmDialog(null, "Guest not found.  Create Guest?", "Invalid Guest No", JOptionPane.YES_NO_OPTION);
@@ -109,7 +109,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }//end checkinReservation()
     
@@ -134,7 +134,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }//end checkOutReservation()
     
@@ -159,7 +159,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }//end cancelReservation()
     //no show reservaton
@@ -183,7 +183,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
     }//end noShowReservation()
     //Search reservaton
@@ -225,7 +225,7 @@ public class ReservationDAO {
             //close connection
             gc.getConn().close();
         } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
       
         return records;
@@ -285,8 +285,7 @@ public class ReservationDAO {
                 totalRows = rs.getRow();
             }//end while
         } catch(SQLException ex) {
-            System.out.println(ex);
-            Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ErrorHandling.displayException(ex);
         }
        
         rowInfo = new String[totalRows][7];//rows must be calulated first
@@ -352,7 +351,7 @@ public class ReservationDAO {
                 }//end while
             }
             catch(Exception ex){
-                System.out.println("Here"+ex);
+                ErrorHandling.displayException(ex);
             }
          
         
