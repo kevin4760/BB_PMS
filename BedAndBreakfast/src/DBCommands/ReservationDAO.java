@@ -11,14 +11,7 @@ import classes.Reservation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -37,8 +30,7 @@ status can be the following
 4 - no show
 */
 public class ReservationDAO {
-    //variables
-    private Statement stmt;
+    //variables    
     private ResultSet rs;
     private PreparedStatement ps;
 
@@ -50,7 +42,8 @@ public class ReservationDAO {
         //connects to database
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -66,20 +59,25 @@ public class ReservationDAO {
             ps.setString(2, r.getRoomNumber());
             ps.setString(3, r.getGuestNumber());
             ps.setString(4, r.getCheckIn());
-            ps.setString(5, r.getCheckOut());
-//          ps.setString(6, r.getPrice());
+            ps.setString(5, r.getCheckOut());         
             ps.setString(6, "85.00");
             ps.setString(7, "0");
             ps.executeQuery();
+            
             //user message
-            showMessageDialog(null, "Reservation Created: " + r.getResNo(), "Record Added", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Created: " + r.getResNo(),
+                    "Record Added", JOptionPane.INFORMATION_MESSAGE);
+            
             //close connection
             gc.getConn().close();
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
             //catch unique guest_no constraint and offers to create guest
             if(ex.getSQLState().startsWith("23")) {
-                int dialogResults = JOptionPane.showConfirmDialog(null, "Guest not found.  Create Guest?", "Invalid Guest No", JOptionPane.YES_NO_OPTION);
+                int dialogResults = JOptionPane.showConfirmDialog(null, "Guest"
+                        + " not found.  Create Guest?", "Invalid Guest"
+                                + " No", JOptionPane.YES_NO_OPTION);
                 //create guest if yes
                 if(dialogResults == 0) {
                     new views.GuestSearchModule().setVisible(true);
@@ -93,7 +91,8 @@ public class ReservationDAO {
         //connects to database
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -104,11 +103,15 @@ public class ReservationDAO {
             ps.setString(1, "1");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
+            
             //user message
-            showMessageDialog(null, "Reservation Checked In", "Checked In", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Checked In", 
+                    "Checked In", JOptionPane.INFORMATION_MESSAGE);
+            
             //close connection
             gc.getConn().close();
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//end checkinReservation()
@@ -118,7 +121,8 @@ public class ReservationDAO {
         //connects to database
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -130,10 +134,12 @@ public class ReservationDAO {
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
-            showMessageDialog(null, "Reservation Checked Out", "Checked Out", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Checked Out", 
+                    "Checked Out", JOptionPane.INFORMATION_MESSAGE);
             //close connection
             gc.getConn().close();
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//end checkOutReservation()
@@ -143,7 +149,8 @@ public class ReservationDAO {
         //connects to database
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -155,19 +162,24 @@ public class ReservationDAO {
             ps.setString(2, r.getResNo());
             ps.executeQuery();
             //user message
-            showMessageDialog(null, "Reservation Cancelled", "Cancel Reservation", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation Cancelled", "Cancel "
+                    + "Reservation", JOptionPane.INFORMATION_MESSAGE);
+            
             //close connection
             gc.getConn().close();
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//end cancelReservation()
+    
     //no show reservaton
     public void noShowReservation(Reservation r) {
         //connects to database
         try{
             gc.getDBConnection();
-        }catch(SQLException ex){
+        }
+        catch(SQLException ex){
             ErrorHandling.displayException(ex);
             return;
         }
@@ -178,59 +190,18 @@ public class ReservationDAO {
             ps.setString(1, "4");
             ps.setString(2, r.getResNo());
             ps.executeQuery();
+            
             //user message
-            showMessageDialog(null, "Reservation No Show", "No Show", JOptionPane.INFORMATION_MESSAGE);
+            showMessageDialog(null, "Reservation No Show", "No Show", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            
             //close connection
             gc.getConn().close();
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//end noShowReservation()
-    //Search reservaton
-   /* public ArrayList<ArrayList<String>> searchReservationByResNo(ArrayList<String> searchCriteria) {
-        
-        ArrayList <ArrayList<String>> records = new ArrayList<>();
-        
-        //connects to database
-        try{
-            gc.getDBConnection();
-        }catch(SQLException ex){
-            ErrorHandling.displayException(ex);
-            return records;
-        }
-        
-        ArrayList <String> record = new ArrayList();
-        //need method to get guest and room number
-        try{
-            ps=gc.getConn().prepareStatement
-                ("SELECT last_name, first_name, in_date, out_date, status, rm_no " +
-                    " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
-                    " AND (r.res_no = ?)" +
-                    " OR (r.rm_no = ?)" +
-                    " OR (r.in_date >= ? AND r.out_date <=?)" +
-                    " OR (g.guest_no = ?)" +
-                    " OR (r.status = ?)" +
-                    " OR (g.first_name=?)" +
-                    " OR (g.last_name=?)");
-            ps.setString(1, searchCriteria.get(0));
-            rs = ps.executeQuery();
-            while (rs.next()){
-                for (int i = 1; i <= 6; i++ ){
-                record.add(rs.getString(i));
-                }
-                records.add(record);
-                record = new ArrayList();
-            }
-            rs.close();
-            //close connection
-            gc.getConn().close();
-        } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      
-        return records;
-    }//end searchReservation()
-    */
     
     /**
      * Author Kevin, searches reservation from database
@@ -307,15 +278,14 @@ public class ReservationDAO {
             );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
-//            ps.setString(1, 4);//test value
             ps.setString(2, r.getResNo());
             ps.setString(3, r.getRoomNumber());
             ps.setString(4, r.getCheckIn());
             ps.setString(5, r.getCheckOut());
-            ps.setString(6, r.getGuestNumber());
-          // ps.setString(6, "1001");//test value
+            ps.setString(6, r.getGuestNumber());          
             ps.setString(7, g.getFirstName());
             ps.setString(8, g.getLastName());
+            
             //execute command to the database
             rs = ps.executeQuery(); 
             //add to array
@@ -335,23 +305,14 @@ public class ReservationDAO {
             }
             catch(Exception ex){
                 System.out.println("Here"+ex);
-            }
-         
+            }       
         
             //close DB connection
             gc.getConn().close();
         } catch(Exception ex) {
             System.out.println(ex);
             Logger.getLogger(ReservationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }//end try
-        //BEGIN TEST ITEM
-       //for(int i=0; i < totalRows; i++){
-        //    for(int column=0; column < 7; column++){
-        //        System.out.print(rowInfo[i][column]+" ");
-       //     }
-       //     System.out.println();
-       // }
-        //END TEST ITEM
+        }//end try     
         return rowInfo;
     }
 }
