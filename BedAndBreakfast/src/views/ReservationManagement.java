@@ -426,14 +426,14 @@ public class ReservationManagement extends javax.swing.JFrame {
 
         //this may still be broke right here
         String status;
-        Object statusObject = jComboBoxReservationStatus.getSelectedItem();
-        if (statusObject == null){
-            res.setStatus("0");
-        } else {
-            status = String.valueOf(statusObject);
-            res.setStatus((status));
-        }
-
+        Object statusObject = jComboBoxReservationStatus.getSelectedIndex();
+//        if (statusObject == null){
+//            res.setStatus("0");
+//        } else {
+//            status = statusObject.toString();
+            res.setStatus((statusObject.toString()));
+//        }
+        System.out.println(statusObject);
         String lastName = jTextFieldLastName.getText();
         if (lastName == null){
             lastName = "";

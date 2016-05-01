@@ -226,12 +226,12 @@ public class ReservationDAO {
                 "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
                 " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
                 " AND (r.status = ?) "+ //reservation status must be set
-                " AND (r.res_no = ?)" +
+                " AND ((r.res_no = ?)" +
                 " OR (r.rm_no = ?)" +
                 " OR (r.in_date >= ? AND r.out_date <=?)" +
                 " OR (g.guest_no = ?)" +
                 " OR (g.first_name=?)" +
-                " OR (g.last_name=?)"
+                " OR (g.last_name=?))"
             );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
@@ -263,12 +263,12 @@ public class ReservationDAO {
                 "SELECT res_no, last_name, first_name, in_date, out_date, status, rm_no " +
                 " FROM reservations r, guests g WHERE (r.guest_no= g.guest_no) " +
                 " AND (r.status = ?) "+ //reservation status must be set
-                " AND (r.res_no = ?)" +
+                " AND ((r.res_no = ?)" +
                 " OR (r.rm_no = ?)" +
                 " OR (r.in_date >= ? AND r.out_date <=?)" +
                 " OR (g.guest_no = ?)" +
                 " OR (g.first_name=?)" +
-                " OR (g.last_name=?)"                    
+                " OR (g.last_name=?))"                    
             );//end ps
             //set values (8-?)
             ps.setString(1, r.getStatus());
